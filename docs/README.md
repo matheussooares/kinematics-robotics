@@ -17,4 +17,5 @@ O objetivo geral do trabalho consiste na aproximação da cinemática inversa de
 
 O braço robótico é apresentado na figura abaixo. Trata-se de um robô do tipo manipulador, desenvolvido em um módulo didático pelo grupo de pesquisa em robótica do [IFCE](https://robotica.ifce.edu.br/). Sua fabricação foi realizada por meio de uma impressora 3D, utilizando filamento de PLA, um material de baixo custo amplamente empregado em impressões tridimensionais.
 
-![Texto Alternativo](img/manipuladorroboticodidatico.png)
+<img src="img/manipuladorroboticodidatico.png" alt="Braço robótico didático" width="400" height="400">
+
