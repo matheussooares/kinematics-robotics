@@ -73,3 +73,17 @@ def redundancy(vizinhos,df_dataset):
 
     else:
       return list([])
+    
+def remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy):
+  # Conjunto que armazena os indices das amostras redundantes
+  redund_ind = set()
+  # Percorre todos as linhas do dataframe
+  for indice in dataset.index:
+    # Analisa amostra em seguente a amostra atual
+    df = dataset.loc[indice:]
+    amostra = dataset.loc[indice]
+    # Pega os vizinhos da amostra atual sobre um raio
+    vizinhos = neighbors(amostra[attr_neighbors],df[attr_neighbors],radius)
+    # Armazena no conjunto os indices das amostras redundântes
+    redund_ind.update(redundancy(vizinhos,df[attr_redundancy]))
+  return  dataset.drop(redund_ind)
