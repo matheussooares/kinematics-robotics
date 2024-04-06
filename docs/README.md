@@ -12,3 +12,5 @@ O objetivo geral do trabalho consiste na aproximação da cinemática inversa de
 - Investigar formas de gerar dados relevantes que relacionem os ângulos das       juntas com a posição no plano tridimensional. 
 - Pesquisar os modelos de regressão utilizados para aproximação de                cinemática inversa.	 
 - Investigar os métodos de validação dos modelos projetados.
+
+# Máterias e métodos
