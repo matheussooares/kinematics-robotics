@@ -23,3 +23,15 @@ O braço robótico é apresentado na figura abaixo. Trata-se de um robô do tipo
   <em>Figura 1: braço robótico didático</em>
 </div>
 
+Devido ao mecanismo robótico ser constituido por 5 graus de liberdade de juntas rotativas, a cadeia cinemática possui cinco variáveis de juntas $\theta_{i}$, para $i = 1,...,5$. A descrição da cinemática direta desse sistema está apresentada na Tabela abaixo, no qual define os parâmetros de Denavit-Hartenberg de cada elemento do manipulador.
+
+| i | $\theta$ ($^\circ$) | $a$ ($cm$) | $d$ ($cm$) | $\alpha$ ($^\circ$) |
+|---|----------------------|------------|------------|---------------------|
+| 1 | $\theta_{1}$         | 0          | Elo 0      | $+90$               |
+| 2 | $\theta_{2}$         | Elo 1      | 0          | $+180$              |
+| 3 | $\theta_{3}$         | Elo 2      | 0          | $-180$              |
+| 4 | $\theta_{4} + 90$    | 0          | 0          | $+90$               |
+| 5 | $\theta_{5}$         | 0          | Elo 3+ Elo 4 | $0$               |
+
+
+
