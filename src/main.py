@@ -1,13 +1,21 @@
 from scripts import forwardkinematics as forward
 from scripts import preprocessingdatabase
 from scripts import plot as plot
+from scripts import createdataset as cd
 import pandas as pd
 
-path = f'src/data/raw/dataset.csv'
-dataset = pd.read_csv(path)
+# Modelagem da cinemática direta usando Denavit-hartenberg
+Elos = [['theta_1',10,0,90,0],
+        ['theta_2',0,18,180,0],
+        ['theta_3',0,18,-180,0],
+        ['theta_4',0,0,90,90],
+        ['theta_5',18,0,0,0]
+    ]
 
+robo = forward.Robo("Robo",Elos)
 
-#plot.plot3D(dataset,['p_x','p_y','p_z'])
+# Criar a base de dados
+joins = [[0, 120],[0, 120],[0, 120],[0, 120],[0, 0]]
+steps = [5, joins[1][1]//10, joins[2][1]//10, joins[3][1]//10, 1]
 
-
-#print(robo.nameBot)
+dataset = cd.create_dataset(joins,steps,robo.joinName)
