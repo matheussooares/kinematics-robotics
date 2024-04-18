@@ -1,6 +1,7 @@
 from scripts import forwardkinematics as forward
 import numpy as np
 import pandas as pd
+from numpy import arctan2
 
 
 def remove_height(df_dataset,height):
@@ -87,3 +88,28 @@ def remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy):
     # Armazena no conjunto os indices das amostras redundântes
     redund_ind.update(redundancy(vizinhos,df[attr_redundancy]))
   return  dataset.drop(redund_ind)
+
+
+# Cria o pich, roll e yaw a partir da matriz de transformação
+def rotations(dataset):
+    """
+    Converte uma matriz de rotação em ângulos de Euler (pith, roll, yaw).
+    
+    Args:
+    dataframe contendo 
+    
+    Retorna:
+    Dataframe contendo os ângulos de Euler (pith, roll, yaw) em radianos
+    """
+    colunas=['Roll','Pich','Yaw']
+    df = []
+    for ind,amostra in dataset.iterrows():
+        roll = arctan2(amostra['R_32'],amostra['R_33'])
+        yaw = arctan2(amostra['R_21'],amostra['R_11'])
+        if cos(yaw) < 1e-16:
+            pich = arctan2(-amostra['R_31'],amostra['R_21']/sin(yaw))
+        else:
+            pich = arctan2(-amostra['R_31'],amostra['R_11']/cos(yaw))
+        df.append([roll,pich,yaw])
+    df = pd.DataFrame(df,columns = colunas)
+    return df
