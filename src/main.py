@@ -14,8 +14,9 @@ Elos = [['theta_1',10,0,90,0],
 
 robo = forward.Robo("Robo",Elos)
 
-# Criar a base de dados
+# Mapeamento do espaço das juntas e o espaço operacional
 joins = [[0, 120],[0, 120],[0, 120],[0, 120],[0, 0]]
 steps = [5, joins[1][1]//10, joins[2][1]//10, joins[3][1]//10, 1]
 
-dataset = cd.create_dataset(joins,steps,robo.joinName)
+dataset = cd.mapping(robo,joins,steps)
+
