@@ -1,7 +1,6 @@
 from scripts import forwardkinematics as forward
-import numpy as np
-import pandas as pd
-from numpy import arctan2
+from pandas import DataFrame
+from numpy import arctan2,sqrt,cos,sin
 
 
 def remove_height(df_dataset,height):
@@ -36,7 +35,7 @@ def neighbors(amostra, posicoes, raio):
       diferenca = (posicoes - amostra) ** 2
 
       # Calcula a distância euclidiana e armazena em um dataframe
-      df_distancia = pd.DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).applymap(np.sqrt)
+      df_distancia = DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).applymap(sqrt)
 
       # Retornar é menor ou igual ao raio definido
       return df_distancia[(df_distancia<=raio).all(axis=1)]
@@ -111,5 +110,5 @@ def rotations(dataset):
         else:
             pich = arctan2(-amostra['R_31'],amostra['R_11']/cos(yaw))
         df.append([roll,pich,yaw])
-    df = pd.DataFrame(df,columns = colunas)
+    df = DataFrame(df,columns = colunas)
     return df
