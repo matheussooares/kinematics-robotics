@@ -1,6 +1,6 @@
 from scripts import forwardkinematics as forward
 from pandas import DataFrame
-from numpy import arctan2,sqrt,cos,sin
+from numpy import arctan2,sqrt,cos,sin, array
 
 
 def remove_height(df_dataset,height):
@@ -29,7 +29,7 @@ def neighbors(amostra, posicoes, raio):
     ## Colocar restrinção se tam(amostra) = tam(posições)
     if len(amostra) == posicoes.shape[1]:
       # Converte a amostra em numpy
-      amostra = np.array(amostra)
+      amostra = array(amostra)
 
       # Calcula a diferença entre a amostra e a base de dados
       diferenca = (posicoes - amostra) ** 2
