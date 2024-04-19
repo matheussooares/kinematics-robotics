@@ -10,7 +10,7 @@ Elos = [['theta_1',10,0,90,0],
         ['theta_3',0,18,-180,0],
         ['theta_4',0,0,90,90],
         ['theta_5',18,0,0,0]
-    ]
+]
 
 robo = forward.Robo("Robo",Elos)
 
@@ -42,7 +42,9 @@ attr_redundancy = ['theta_2','theta_3','theta_4','theta_5']
 # remove as redundâncias
 dataset = pp.remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy)
 
-
-
+## Redução de atributos
+dataset = pd.concat([dataset[['theta_1','theta_2','theta_3','theta_4','theta_5','p_x','p_y','p_z']],pp.rotations(dataset)],axis=1)
+path = r'\kinematics-robotics\src\data\ready\dataset_15mm.csv'
+dataset.to_csv(path)
 
 
