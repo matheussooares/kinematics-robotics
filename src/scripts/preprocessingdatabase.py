@@ -35,7 +35,7 @@ def neighbors(amostra, posicoes, raio):
       diferenca = (posicoes - amostra) ** 2
 
       # Calcula a distância euclidiana e armazena em um dataframe
-      df_distancia = DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).applymap(sqrt)
+      df_distancia = DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).map(sqrt)
 
       # Retornar é menor ou igual ao raio definido
       return df_distancia[(df_distancia<=raio).all(axis=1)]

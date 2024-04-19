@@ -1,5 +1,5 @@
 from scripts import forwardkinematics as forward
-from scripts import preprocessingdatabase
+from scripts import preprocessingdatabase as pp
 from scripts import plot as plot
 from scripts import createdataset as cd
 import pandas as pd
@@ -19,4 +19,30 @@ joins = [[0, 120],[0, 120],[0, 120],[0, 120],[0, 0]]
 steps = [5, joins[1][1]//10, joins[2][1]//10, joins[3][1]//10, 1]
 
 dataset = cd.mapping(robo,joins,steps)
+
+# Tratamento da base de dados
+## Altura negativa
+height = 0
+dataset = pp.remove_height(dataset,height)
+## Elos negativos
+Elos = [['theta_1',10,0,90,0],
+        ['theta_2',0,18,180,0],
+        ['theta_3',0,18,-180,0]
+        ]
+
+dataset = pp.remove_height_join(dataset,Elos,'bot',['theta_1','theta_2','theta_3'],height)
+
+## Removendo redundância
+# Usando 10 mm de raio
+radius = 1
+# Análise de vizinhos é no espaço operacional 
+attr_neighbors = ['p_x','p_y','p_z']
+# O critério de escolha é no espaço das juntas
+attr_redundancy = ['theta_2','theta_3','theta_4','theta_5']
+# remove as redundâncias
+dataset = pp.remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy)
+
+
+
+
 
