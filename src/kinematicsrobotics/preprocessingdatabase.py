@@ -1,4 +1,4 @@
-from scripts import forwardkinematics as forward
+from kinematicsrobotics import forwardkinematics as forward
 from pandas import DataFrame
 from numpy import arctan2,sqrt,cos,sin, array
 

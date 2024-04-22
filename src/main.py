@@ -1,7 +1,7 @@
-from scripts import forwardkinematics as forward
-from scripts import preprocessingdatabase as pp
-from scripts import plot as plot
-from scripts import createdataset as cd
+from kinematicsrobotics import forwardkinematics as forward
+from kinematicsrobotics import preprocessingdatabase as pp
+from kinematicsrobotics import plot as plot
+from kinematicsrobotics import createdataset as cd
 import pandas as pd
 
 # Modelagem da cinemática direta usando Denavit-hartenberg
