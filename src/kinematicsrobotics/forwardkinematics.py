@@ -6,19 +6,21 @@ from math import radians
 
 class Elo:
   """
-    Clase que define um elo físico do rôbo. Essa representação de elo é descrito 
+    Classe que define um elo físico do rôbo. Essa representação de elo é descrito 
     por meio dos parâmetros da notação de Denavit-Hartenberg (DH).
     
     Os parâmetros que compõem a classe:
-      - theta: Ângulo de rotação em torno do eixo z (graus)
-      - d: Distância ao longo do eixo z (cm)
-      - a: Comprimento do elo (cm)
-      - alpha: Ângulo de rotação em torno do eixo x comum (graus)
-      - phase: Fase do ângulo de rotação em torno do eixo z (graus)
+      - theta: ângulo de rotação em torno do eixo z (graus)
+      - d: distância ao longo do eixo z (cm)
+      - a: comprimento do elo (cm)
+      - alpha: ângulo de rotação em torno do eixo x comum (graus)
+      - phase: fase do ângulo de rotação em torno do eixo z (graus)
 
     Exemplo:
       import sympy
+
       theta = sympy.symbols('theta')
+
       elo = Elo(theta,10,0,90,0)    
   """
   # Construtor da classe Elo
@@ -41,14 +43,15 @@ class Robo:
     Os parâmetros variáveis das juntas rotativa/torcional devem ser definidos como uma string.
     Até o momento só é possível criar robôs com juntas rotativas e torcionais. Os demais valores 
     devem seguir a definição da classe elo.
-      - d: Distância ao longo do eixo z (cm)
-      - a: Comprimento do elo (cm)
-      - alpha: Ângulo de rotação em torno do eixo x comum (graus)
-      - phase: Fase do ângulo de rotação em torno do eixo z (graus)
+      - d: distância ao longo do eixo z (cm)
+      - a: comprimento do elo (cm)
+      - alpha: ângulo de rotação em torno do eixo x comum (graus)
+      - phase: fase do ângulo de rotação em torno do eixo z (graus)
 
     Exemplo:
       Elos = [['theta_1',10,0,90,0],
               ['theta_2',0,18,180,0]]
+
       robo = Robo('NomeRobo',Elos)
   """
   # Construtor da classe robo
@@ -66,17 +69,19 @@ class Robo:
       series.append(Elo(symbols(row[0], real = True),row[1],row[2],row[3],row[4]))
     return series
 
-  # Método privado para criar uma matriz de transformação homogênea de DH genérica
+  # Cria uma matriz de transformação homogênea de DH genérica
   def __matrix_homogeneous_transformations(self,theta, d, a, alpha):
+    # Converte o dado em radiano
     alpha = radians(alpha)
-    r = 5
+    # 
+    r = 5 
     # Matriz TH para a notação denavit-hartenberg
     matrix = Matrix([
             [cos(theta), -sin(theta) * cos(alpha).round(r), sin(theta) * sin(alpha).round(r), a * cos(theta)],
             [sin(theta), cos(theta) * cos(alpha).round(r), -cos(theta) * sin(alpha).round(r), a * sin(theta)],
             [0, sin(alpha).round(r), cos(alpha).round(r), d],
             [0, 0, 0, 1]
-        ])
+    ])
     return matrix
 
   # Método privado que define a matriz de tranformação total do manipulador
