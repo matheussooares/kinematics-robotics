@@ -36,10 +36,7 @@ class Robo:
     Os parâmetros para a construção da classe:
       - nameBot: nome do robô
       - elos: lista com os parâmetros DH de cada elo seguindo a ordem do exemplo abaixo.
-    
-    exemplo:
-      Elos = [['theta_1',d_1,a_1,alpha_1,phase_1],
-            ['theta_2',d_2,a_2,alpha_2,phase_2]]
+              Elos = [['theta_1',d,a,alpha,phase]]
     
     Os parâmetros variáveis das juntas rotativa/torcional devem ser definidos como uma string.
     Até o momento só é possível criar robôs com juntas rotativas e torcionais. Os demais valores 
@@ -48,6 +45,11 @@ class Robo:
       - a: Comprimento do elo (cm)
       - alpha: Ângulo de rotação em torno do eixo x comum (graus)
       - phase: Fase do ângulo de rotação em torno do eixo z (graus)
+
+    Exemplo:
+      Elos = [['theta_1',10,0,90,0],
+              ['theta_2',0,18,180,0]]
+      robo = Robo('NomeRobo',Elos)
   """
   # Construtor da classe robo
   def __init__(self,nameBot,elos):
