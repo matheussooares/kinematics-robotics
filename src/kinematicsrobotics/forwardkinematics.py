@@ -5,6 +5,22 @@ from math import radians
 
 
 class Elo:
+  """
+    Clase que define um elo físico do rôbo. Essa representação de elo é descrito 
+    por meio dos parâmetros da notação de Denavit-Hartenberg (DH).
+    
+    Os parâmetros que compõem a classe:
+      - theta: Ângulo de rotação em torno do eixo z (graus)
+      - d: Distância ao longo do eixo z (cm)
+      - a: Comprimento do elo (cm)
+      - alpha: Ângulo de rotação em torno do eixo x comum (graus)
+      - phase: Fase do ângulo de rotação em torno do eixo z (graus)
+
+    Exemplo:
+      import sympy
+      theta = sympy.symbols('theta')
+      elo = Elo(theta,10,0,90,0)    
+  """
   # Construtor da classe Elo
   def __init__(self,theta,d,a,alpha,phase):
     self.theta = theta
@@ -14,7 +30,26 @@ class Elo:
     self.phase = phase
 
 class Robo:
-  # Construtor da classe
+  """
+    Classe que define um robô seguindo a notação de Denavit-Hartenberg (DH). 
+
+    Os parâmetros para a construção da classe:
+      - nameBot: nome do robô
+      - elos: lista com os parâmetros DH de cada elo seguindo a ordem do exemplo abaixo.
+    
+    exemplo:
+      Elos = [['theta_1',d_1,a_1,alpha_1,phase_1],
+            ['theta_2',d_2,a_2,alpha_2,phase_2]]
+    
+    Os parâmetros variáveis das juntas rotativa/torcional devem ser definidos como uma string.
+    Até o momento só é possível criar robôs com juntas rotativas e torcionais. Os demais valores 
+    devem seguir a definição da classe elo.
+      - d: Distância ao longo do eixo z (cm)
+      - a: Comprimento do elo (cm)
+      - alpha: Ângulo de rotação em torno do eixo x comum (graus)
+      - phase: Fase do ângulo de rotação em torno do eixo z (graus)
+  """
+  # Construtor da classe robo
   def __init__(self,nameBot,elos):
     self.nameBot = nameBot
     self.series = self.__series_link(elos)
@@ -22,11 +57,11 @@ class Robo:
     self.joinName = self.__join_names()
     self.__simplifForwardKinematics = None
 
-  # Método privado para criar a cadeia cinemática de elos. Obs: tenho que deixar mais generalista. Apenas juntas rotativas estão valendo
+  # Cria a cadeia cinemática de elos
   def __series_link(self,elos):
     series = []
-    for elemento in elos:
-      series.append(Elo(symbols(elemento[0], real = True),elemento[1],elemento[2],elemento[3],elemento[4]))
+    for row in elos:
+      series.append(Elo(symbols(row[0], real = True),row[1],row[2],row[3],row[4]))
     return series
 
   # Método privado para criar uma matriz de transformação homogênea de DH genérica
