@@ -71,9 +71,8 @@ class Robo:
 
   # Cria uma matriz de transformação homogênea de DH genérica
   def __matrix_homogeneous_transformations(self,theta, d, a, alpha):
-    # Converte o dado em radiano
+    # Converte o dado em radianos
     alpha = radians(alpha)
-    # 
     r = 5 
     # Matriz TH para a notação denavit-hartenberg
     matrix = Matrix([
