@@ -1,7 +1,7 @@
 from kinematicsrobotics import forwardkinematics as forward
-from kinematicsrobotics import dataprocessing as pp
-from kinematicsrobotics import plot as plot
-from kinematicsrobotics import spacemapping as map
+from kinematicsrobotics import dataprocessing
+from kinematicsrobotics import plot
+from kinematicsrobotics import spacemapping
 import pandas as pd
 
 # Modelagem da cinemática direta usando Denavit-hartenberg
@@ -18,6 +18,16 @@ robo = forward.Robo("Robo",Elos)
 joins = [[0, 10],[0, 10],[0, 10],[0, 10],[0, 0]]
 steps = [10, joins[1][1]//2, joins[2][1]//2, joins[3][1]//2, 1]
 
-dataset = map.mapping(robo,joins,steps)
+dataset = spacemapping.mapping(robo,joins,steps)
 
-print(dataset)
+print(dataset.shape)
+
+
+# Tratamento da base de dados
+## Altura negativa
+height = 0
+dataset = dataprocessing.remove_height(dataset,height)
+
+print(dataset[''])
+
+
