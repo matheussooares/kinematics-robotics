@@ -21,7 +21,7 @@ def operational_space(robo,data_join):
         data_operational.append(array(robo.frame_effector(pose.values)[:3]).reshape(-1))
     return DataFrame(data_operational,columns=labels)
 
-# Relaciona os espaços mapeados
+# Relaciona os espaços mapeados melhorado
 def mapping(robo,joins,steps):
     data_join = joint_space(robo,joins,steps) 
     data_operational = operational_space(robo,data_join)
