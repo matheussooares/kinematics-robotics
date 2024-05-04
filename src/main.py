@@ -22,6 +22,19 @@ steps = [10, joins[1][1]//2, joins[2][1]//2, joins[3][1]//2, 1]
 dataset = spacemapping.mapping(robo,joins,steps)
 print(dataset.shape)
 
+
+
+## Altura negativa
+height = 0
+dataset = dataprocessing.remove_height(dataset,height)
+
+## Elos negativos
+Elos = [['theta_1',10,0,90,0],
+        ['theta_2',0,18,180,0],
+        ['theta_3',0,18,-180,0]
+        ]
+
+dataset = dataprocessing.remove_height_join(dataset,Elos,'bot',['theta_1','theta_2','theta_3'],height)
 # Usando 10 mm de raio
 radius = 1
 # Análise de vizinhos é no espaço operacional 
