@@ -11,7 +11,7 @@ def remove_height(df_dataset,height):
     return df_dataset
 
 def remove_height_join(df_dataset,elos,namebot,namejoins,height):
-    # Cria um robô intermediario
+    # Cria um robô intermediario 
     robo = forward.Robo(namebot,elos)
     # Pega apenas as juntas referentes ao robô intermediário
     df_join3 = df_dataset[namejoins]
