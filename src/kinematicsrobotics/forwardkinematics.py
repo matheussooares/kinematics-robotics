@@ -60,7 +60,8 @@ class Robo:
     self.parameters = parameters
     self.serieslink = self.__series_link(parameters)
     self.matrixForwardKinematics = self.__homogeneous_transformations()
-    self.joinName = self.__join_names()
+    self.__joinVar = self.__join_var()
+    self.joinName = self.__join_name()
     self.__simplifForwardKinematics = None
 
   # Cria a cadeia cinemática de elos
@@ -106,8 +107,8 @@ class Robo:
     else:
       return self.__simplifForwardKinematics
 
-  # Método privado que coleta as variáveis das juntas
-  def __join_names(self):
+  # Método privado que coleta as variáveis simbólicas das juntas
+  def __join_var(self):
     # Declara a variável como um conjunto para que só exista apenas uma varivel
     joinName = []
     # Percorre a cadeia cinemática de elos
@@ -118,10 +119,18 @@ class Robo:
         if isinstance(val, Symbol):
           joinName.append(val)
     return joinName
+  
+  # Método que retorna o nome da variável
+  def __join_name(self):
+    joinVar = self.__joinVar
+    joinName = []
+    for var in joinVar:
+      joinName.append(var.name)
+    return joinName
 
   # Método que retorna a matriz de transform
   def frame_effector(self,pose):
-    joinName = self.joinName
+    joinName = self.__joinVar
     pose = npradians(pose)
     if len(joinName) == len(pose):
       data = dict(zip(joinName,pose))

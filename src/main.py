@@ -13,16 +13,16 @@ Elos = [['theta_1',10,0,90,0],
 ]
 
 robo = forward.Robo("Robo",Elos)
-
 print(robo.joinName)
 
 # Mapeamento do espaço das juntas e o espaço operacional
-#joins = [[0, 10],[0, 10],[0, 10],[0, 10],[0, 0]]
-#steps = [10, joins[1][1]//2, joins[2][1]//2, joins[3][1]//2, 1]
+joins = [[0, 10],[0, 10],[0, 10],[0, 10],[0, 0]]
+steps = [10, joins[1][1]//2, joins[2][1]//2, joins[3][1]//2, 1]
 
-#dataset = spacemapping.mapping(robo,joins,steps)
+dataset = spacemapping.mapping(robo,joins,steps)
+print(dataset)
+print(dataset.columns.tolist())
 
-#print(dataset.shape)
 
 
 # Tratamento da base de dados
@@ -30,6 +30,6 @@ print(robo.joinName)
 #height = 0
 #dataset = dataprocessing.remove_height(dataset,height)
 
-#print(dataset[''])
+#print(dataset.columns.tolist())
 
 
