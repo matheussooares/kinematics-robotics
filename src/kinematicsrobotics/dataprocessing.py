@@ -1,7 +1,7 @@
 from kinematicsrobotics import kinematics as forward
 from pandas import DataFrame
 from numpy import arctan2,sqrt,cos,sin, array
-import sympy as sp
+from sympy import sqrt
 
 
 def remove_height(df_dataset,height):
@@ -36,7 +36,7 @@ def neighbors(amostra, posicoes, raio):
       diferenca = (posicoes - amostra) ** 2
 
       # Calcula a distância euclidiana e armazena em um dataframe
-      df_distancia = DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).map(sp.sqrt)
+      df_distancia = DataFrame(diferenca.sum(axis=1),columns=['Distâncias']).map(sqrt)
 
       # Retornar é menor ou igual ao raio definido
       return df_distancia[(df_distancia<=raio).all(axis=1)]

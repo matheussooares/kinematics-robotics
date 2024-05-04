@@ -1,8 +1,7 @@
-import kinematics
-import dataprocessing
-import plot
-import spacemapping
-import pandas as pd
+from kinematicsrobotics import kinematics
+from kinematicsrobotics  import dataprocessing
+from kinematicsrobotics  import plot
+from kinematicsrobotics  import spacemapping
 
 # Modelagem da cinemática direta usando Denavit-hartenberg
 Elos = [['theta_1',10,0,90,0],

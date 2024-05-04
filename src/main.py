@@ -1,7 +1,6 @@
 from kinematicsrobotics import kinematics
-from kinematicsrobotics  import dataprocessing
-from kinematicsrobotics  import plot
-from kinematicsrobotics  import spacemapping
+from kinematicsrobotics import dataprocessing
+from kinematicsrobotics import spacemapping
 import pandas as pd
 import numpy as np
 
