@@ -1,4 +1,4 @@
-from kinematicsrobotics import forwardkinematics as forward
+from kinematicsrobotics import kinematics as forward
 from kinematicsrobotics import dataprocessing
 from kinematicsrobotics import plot
 from kinematicsrobotics import spacemapping
