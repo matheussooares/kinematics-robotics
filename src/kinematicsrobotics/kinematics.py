@@ -77,12 +77,11 @@ class Robo:
   def __matrix_homogeneous_transformations(self,theta, d, a, alpha):
     # Converte o dado em radianos
     alpha = radians(alpha)
-    r = 5 
     # Matriz TH para a notação denavit-hartenberg
     matrix = Matrix([
-            [cos(theta), -sin(theta) * cos(alpha).round(r), sin(theta) * sin(alpha).round(r), a * cos(theta)],
-            [sin(theta), cos(theta) * cos(alpha).round(r), -cos(theta) * sin(alpha).round(r), a * sin(theta)],
-            [0, sin(alpha).round(r), cos(alpha).round(r), d],
+            [cos(theta), -sin(theta) * cos(alpha), sin(theta) * sin(alpha), a * cos(theta)],
+            [sin(theta), cos(theta) * cos(alpha), -cos(theta) * sin(alpha), a * sin(theta)],
+            [0, sin(alpha), cos(alpha), d],
             [0, 0, 0, 1]
     ])
     return matrix

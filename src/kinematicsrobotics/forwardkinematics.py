@@ -1,7 +1,7 @@
-from kinematicsrobotics import kinematics as forward
-from kinematicsrobotics import dataprocessing
-from kinematicsrobotics import plot
-from kinematicsrobotics import spacemapping
+import kinematics
+import dataprocessing
+import plot
+import spacemapping
 import pandas as pd
 
 # Modelagem da cinemática direta usando Denavit-hartenberg
@@ -12,7 +12,7 @@ Elos = [['theta_1',10,0,90,0],
         ['theta_5',18,0,0,0]
 ]
 
-robo = forward.Robo("Robo",Elos)
+robo = kinematics.Robo("Robo",Elos)
 
 # Mapeamento do espaço das juntas e o espaço operacional
 joins = [[0, 120],[0, 120],[0, 120],[0, 120],[0, 0]]

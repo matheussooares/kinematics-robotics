@@ -1,8 +1,18 @@
 from pandas import DataFrame, concat
 from numpy import array 
 
-# Mapeia o espaço das juntas
 def joint_space(robo,joins,steps):
+    """
+        Mapeia o espaço das juntas por meio das permutações possíveis
+        dos ângulos das juntas.
+
+        Args:
+        - robo (class Robo): instância de um robô fixo com base na notação DH
+        - joins (list): limites minimos e máximos de atuação de cada junta
+        - steps (list): passo de amostragem dos ângulos de cada junta
+        Returns:
+        - dataframe: dataframe contendo o espaço das juntas
+    """
     # Criando uma lista para armazenar os dados
     data_join = []
     # Criando a matriz com todas as combinações de ângulos
@@ -27,3 +37,15 @@ def mapping(robo,joins,steps):
     data_operational = operational_space(robo,data_join)
     return concat([data_join,data_operational], axis=1)
 
+def floats_convert(matrix):
+    """
+    Converte uma lista de valores simbólicos para floats.
+
+    Args:
+    - frame (list): A lista contendo os valores simbólicos.
+
+    Returns:
+    - list: Uma nova lista com os valores convertidos para floats.
+    """
+    list_float = [[float(val) for val in row] for row in matrix]
+    return list_float
