@@ -55,17 +55,20 @@ class Robo:
       robo = Robo('NomeRobo',Elos)
   """
   # Construtor da classe robo
-  def __init__(self,nameBot,elos):
+  def __init__(self,nameBot,parameters):
     self.nameBot = nameBot
-    self.series = self.__series_link(elos)
+    self.parameters = parameters
+    self.serieslink = self.__series_link(parameters)
     self.matrixForwardKinematics = self.__homogeneous_transformations()
     self.joinName = self.__join_names()
     self.__simplifForwardKinematics = None
 
   # Cria a cadeia cinemática de elos
-  def __series_link(self,elos):
+  def __series_link(self,parameters):
+    # Lista de classe Elos
     series = []
-    for row in elos:
+    # Armazena na lista as classes elos
+    for row in parameters:
       series.append(Elo(symbols(row[0], real = True),row[1],row[2],row[3],row[4]))
     return series
 
@@ -87,8 +90,8 @@ class Robo:
   def __homogeneous_transformations(self):
     # Inicializa a matriz transformação homogênea
     matrix_TH = eye(4)
-    # Percorre os elos
-    for elo in self.series:
+    # Muiltiplica cada matriz DH simbolica
+    for elo in self.serieslink:
       matrix = self.__matrix_homogeneous_transformations(elo.theta+radians(elo.phase),elo.d,elo.a,elo.alpha)
       matrix_TH = matrix_TH @ matrix
     return matrix_TH
@@ -108,7 +111,7 @@ class Robo:
     # Declara a variável como um conjunto para que só exista apenas uma varivel
     joinName = []
     # Percorre a cadeia cinemática de elos
-    for elo in self.series:
+    for elo in self.serieslink:
       # Analisa cada atributo da classe elo
       for att,val in elo.__dict__.items():
         # Amazena o nome da variavel do atributo que é uma variável simbólica
@@ -120,9 +123,9 @@ class Robo:
   def frame_effector(self,pose):
     joinName = self.joinName
     pose = npradians(pose)
-    #if len(joinName) == len(pose):
-    data = dict(zip(joinName,pose))
-    return self.matrixForwardKinematics.evalf(subs=data).tolist()
-    #else:
-      #print("Número de valores é diferente das variáveis")
+    if len(joinName) == len(pose):
+      data = dict(zip(joinName,pose))
+      return self.matrixForwardKinematics.evalf(subs=data).tolist()
+    else:
+      print("Número de valores é diferente das variáveis")
 
