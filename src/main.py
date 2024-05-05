@@ -21,8 +21,6 @@ steps = [10, joins[1][1]//2, joins[2][1]//2, joins[3][1]//2, 1]
 dataset = spacemapping.mapping(robo,joins,steps)
 print(dataset.shape)
 
-
-
 ## Altura negativa
 height = 0
 dataset = dataprocessing.remove_height(dataset,height)
@@ -44,4 +42,7 @@ attr_redundancy = ['theta_2','theta_3','theta_4','theta_5']
 dataset_1mm = dataprocessing.remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy)
 
 print(dataset_1mm.head(3))
-print(dataset_1mm.shape)
+
+dataset_1mm = dataprocessing.rotations(dataset_1mm)
+
+print(dataset_1mm.head(3))
