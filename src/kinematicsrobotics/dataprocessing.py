@@ -1,7 +1,7 @@
 from kinematicsrobotics import kinematics as forward
 from pandas import DataFrame
-from numpy import arctan2,sqrt,cos,sin, array
-from sympy import sqrt
+from numpy import array
+from sympy import sqrt,atan2,cos,sin
 
 
 def remove_height(df_dataset,height):
@@ -104,12 +104,12 @@ def rotations(dataset):
     colunas=['Roll','Pich','Yaw']
     df = []
     for ind,amostra in dataset.iterrows():
-        roll = arctan2(amostra['R_32'],amostra['R_33'])
-        yaw = arctan2(amostra['R_21'],amostra['R_11'])
+        roll = atan2(amostra['R_32'],amostra['R_33'])
+        yaw = atan2(amostra['R_21'],amostra['R_11'])
         if cos(yaw) < 1e-16:
-            pich = arctan2(-amostra['R_31'],amostra['R_21']/sin(yaw))
+            pich = atan2(-amostra['R_31'],amostra['R_21']/sin(yaw))
         else:
-            pich = arctan2(-amostra['R_31'],amostra['R_11']/cos(yaw))
+            pich = atan2(-amostra['R_31'],amostra['R_11']/cos(yaw))
         df.append([roll,pich,yaw])
     df = DataFrame(df,columns = colunas)
     return df

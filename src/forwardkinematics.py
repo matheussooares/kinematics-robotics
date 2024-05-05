@@ -1,6 +1,5 @@
 from kinematicsrobotics import kinematics
 from kinematicsrobotics  import dataprocessing
-from kinematicsrobotics  import plot
 from kinematicsrobotics  import spacemapping
 
 # Modelagem da cinemática direta usando Denavit-hartenberg
