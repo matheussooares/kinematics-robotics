@@ -1,7 +1,7 @@
 from kinematicsrobotics import kinematics as forward
-from pandas import DataFrame
-from numpy import array
-from sympy import sqrt,atan2,cos,sin
+from numpy import array,arctan2,cos,sin
+from sympy import sqrt
+from pandas import concat, DataFrame
 
 
 def remove_height(df_dataset,height):
@@ -89,6 +89,10 @@ def remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy):
     redund_ind.update(redundancy(vizinhos,df[attr_redundancy]))
   return  dataset.drop(redund_ind)
 
+def concat_data(df_1,df_2):
+  df_1 = df_1.reset_index(drop=True)
+  df_2 = df_2.reset_index(drop=True)
+  return concat([df_1,df_2],axis=1)
 
 # Cria o pich, roll e yaw a partir da matriz de transformação
 def rotations(dataset):
@@ -101,15 +105,15 @@ def rotations(dataset):
     Retorna:
     Dataframe contendo os ângulos de Euler (pith, roll, yaw) em radianos
     """
-    colunas=['Roll','Pich','Yaw']
+    colunas=['roll','pich','yaw']
     df = []
     for ind,amostra in dataset.iterrows():
-        roll = atan2(amostra['R_32'],amostra['R_33'])
-        yaw = atan2(amostra['R_21'],amostra['R_11'])
-        if cos(yaw) < 1e-16:
-            pich = atan2(-amostra['R_31'],amostra['R_21']/sin(yaw))
+        roll = arctan2(float(amostra['R_32']),float(amostra['R_33']))
+        yaw = arctan2(float(amostra['R_21']),float(amostra['R_11']))
+        if cos(yaw) < 1e-6:
+            pich = arctan2(-float(amostra['R_31']),float(amostra['R_21'])/sin(yaw))
         else:
-            pich = atan2(-amostra['R_31'],amostra['R_11']/cos(yaw))
+            pich = arctan2(-float(amostra['R_31']),float(amostra['R_11'])/cos(yaw))
         df.append([roll,pich,yaw])
     df = DataFrame(df,columns = colunas)
     return df
