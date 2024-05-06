@@ -67,6 +67,10 @@ for radi in radius:
      df_redcy = dataprocessing.remove_redundancy(dataset,radi,attr_neighbors,attr_redundancy) 
      #print(df_redcy)   
 
+for radi in radius:
+     df_redcy = dataprocessing.remove_redundancy(dataset,radi,attr_neighbors,attr_redundancy) 
+     path = f'kinematics-robotics\\src\\data\\ready\\dataset-radius-{radi}cm.csv'
+     save.dataframe(df_redcy,path)   
 
 
 
