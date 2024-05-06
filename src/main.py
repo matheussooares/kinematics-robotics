@@ -28,7 +28,6 @@ dataset = spacemapping.mapping(robo,joins,steps)
 
 # Salvar dados brutos
 path = r'kinematics-robotics\src\data\raw\dataset-raw.csv'
-print(dataset.shape)
 save.dataframe(dataset,path)
 
 #----------------------- Pré-processamento dos dados -----------------------
@@ -40,7 +39,6 @@ dataset = dataprocessing.concat_data(
 
 path = r'kinematics-robotics\src\data\raw\dataset-semi-raw.csv' # Salvar dados brutos
 save.dataframe(dataset,path)
-print(dataset.shape)
 
 
 # Altura negativa
