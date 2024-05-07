@@ -75,9 +75,22 @@ def redundancy(vizinhos,df_dataset):
       return list([])
     
 def remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy):
-  # Conjunto que armazena os indices das amostras redundantes
+  """
+    Remove amostras redundantes de um conjunto de dados.
+
+    Parameters:
+        dataset (pandas.DataFrame): O conjunto de dados a ser analisado.
+        raio (float): O raio para considerar vizinhança.
+        attr_vizinhos (list): Lista de atributos a serem considerados para determinar vizinhança.
+        attr_redundancia (list): Lista de atributos a serem considerados para determinar redundância.
+
+    Returns:
+        pandas.DataFrame: O conjunto de dados resultante após remover amostras redundantes.
+  """
+  # Conjunto que armazena os índices das amostras redundantes
   redund_ind = set()
-  # Percorre todos as linhas do dataframe
+  
+  # Percorre todas as linhas do conjunto de dados
   for indice in dataset.index:
     # Analisa amostra em seguente a amostra atual
     df = dataset.loc[indice:]
@@ -89,9 +102,24 @@ def remove_redundancy(dataset,radius,attr_neighbors, attr_redundancy):
   return  dataset.drop(redund_ind)
 
 def concat_data(df_1,df_2):
+  """
+    Concatena dois DataFrames horizontalmente.
+
+    Parameters:
+        df_1 (pandas.DataFrame): O primeiro DataFrame.
+        df_2 (pandas.DataFrame): O segundo DataFrame.
+
+    Returns:
+        pandas.DataFrame: O DataFrame resultante da concatenação de df_1 e df_2.
+  """
+  # Redefine os índices dos DataFrames para evitar índices duplicados
   df_1 = df_1.reset_index(drop=True)
   df_2 = df_2.reset_index(drop=True)
-  return concat([df_1,df_2],axis=1)
+    
+  # Concatena os DataFrames horizontalmente
+  df_concatenado = pd.concat([df_1, df_2], axis=1)
+    
+  return df_concatenado
 
 # Cria o pich, roll e yaw a partir da matriz de transformação
 def rotations(dataset):
