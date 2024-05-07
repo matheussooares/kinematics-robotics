@@ -28,7 +28,10 @@ def operational_space(robo,data_join):
     labels = ['R_11','R_12','R_13','p_x','R_21','R_22','R_23','p_y','R_31','R_32','R_33','p_z']
     data_operational = []
     for _,pose in data_join.iterrows():
-        data_operational.append(array(robo.frame_effector(pose.values)[:3]).reshape(-1))
+        matrix = floats_convert(robo.frame_effector(pose.values)[:3])
+        data_operational.append(array(matrix).reshape(-1))
+
+    
     return DataFrame(data_operational,columns=labels)
 
 # Relaciona os espaços mapeados melhorado

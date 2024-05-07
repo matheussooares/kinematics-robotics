@@ -1,6 +1,5 @@
 from kinematicsrobotics import kinematics as forward
-from numpy import array,arctan2,cos,sin
-from sympy import sqrt
+from numpy import array,arctan2,cos,sin,sqrt
 from pandas import concat, DataFrame
 
 
@@ -108,12 +107,12 @@ def rotations(dataset):
     colunas=['roll','pich','yaw']
     df = []
     for ind,amostra in dataset.iterrows():
-        roll = arctan2(float(amostra['R_32']),float(amostra['R_33']))
-        yaw = arctan2(float(amostra['R_21']),float(amostra['R_11']))
+        roll = arctan2(amostra['R_32'],amostra['R_33'])
+        yaw = arctan2(amostra['R_21'],amostra['R_11'])
         if cos(yaw) < 1e-6:
-            pich = arctan2(-float(amostra['R_31']),float(amostra['R_21'])/sin(yaw))
+            pich = arctan2(-amostra['R_31'],amostra['R_21']/sin(yaw))
         else:
-            pich = arctan2(-float(amostra['R_31']),float(amostra['R_11'])/cos(yaw))
+            pich = arctan2(-amostra['R_31'],float(amostra['R_11'])/cos(yaw))
         df.append([roll,pich,yaw])
     df = DataFrame(df,columns = colunas)
     return df
