@@ -1,13 +1,13 @@
 from kinematicsrobotics import kinematics
 from kinematicsrobotics import dataprocessing
 from kinematicsrobotics import spacemapping
-from kinematicsrobotics import load
+from kinematicsrobotics import datahandler
 
 # Raiz do diretorio
 path_project = r"C:\Users\mathe\OneDrive\Graduação - UFC\Engenharia da Computação\TCC\Códigos e implementações\V.2"
 
 # Inicializando a classe save
-save = load.save(path_project)
+save = datahandler.save(path_project)
 
 #----------------------- Mapeamento dos espaços -----------------------
 
