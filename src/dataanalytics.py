@@ -12,7 +12,11 @@ dataset_raw = ext.dataframe(path_data)
 # Gráfico de 
 
 plottingutils.plot2D(dataset_raw,['p_x','p_y'])
+plottingutils.plot2D(dataset_raw,['p_x','p_z'])
+plottingutils.plot2D(dataset_raw,['p_y','p_z'])
 
+
+plottingutils.plot3D(dataset_raw,['p_x','p_y','p_z'])
 
 
 

@@ -11,23 +11,19 @@ def plot2D(df_dataset,labels):
         labels (list): Uma lista contendo os rótulos dos atributos a serem plotados.
   """
   # Cria uma figura
-  fig = plt.figure(figsize=(10, 10))
+  fig = plt.figure(figsize=(20, 20))
 
-  # Configura o subplot para gráficos 2D
-  ax = fig.add_subplot(111)
-
-  # Plota o gráfico de dispersão
-  ax.scatter(df_dataset[labels[0]], df_dataset[labels[1]], s=1, c=np.random.rand(len(df_dataset)), alpha=1, cmap="inferno")
+  plt.scatter(df_dataset[labels[0]], df_dataset[labels[1]], s=1, c=np.random.rand(len(df_dataset)), alpha=1, cmap="inferno")
 
   # Define os limites dos eixos
   min_vals = df_dataset.min()
   max_vals = df_dataset.max()
-  ax.set_xlim(min_vals[labels[0]], max_vals[labels[0]])
-  ax.set_ylim(min_vals[labels[1]], max_vals[labels[1]])
+  plt.xlim(min_vals[labels[0]], max_vals[labels[0]])
+  plt.ylim(min_vals[labels[1]], max_vals[labels[1]])
 
   # Define os rótulos dos eixos
-  ax.set_xlabel(labels[0])
-  ax.set_ylabel(labels[1])
+  plt.xlabel(labels[0])
+  plt.ylabel(labels[1])
   plt.show()
 
 
