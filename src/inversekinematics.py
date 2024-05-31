@@ -1,10 +1,11 @@
 from kinematicsrobotics import datahandler
-from kinematicsrobotics import modelmlp
+from kinematicsrobotics import model
 
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.neural_network import MLPRegressor
+
+from numpy import array
 
 import matplotlib.pyplot as plt
 
@@ -19,9 +20,11 @@ ext = datahandler.extract(path_project)
 dataset = ext.dataframe(path_data)
 
 ## Dados de entrada e saída do modelo
-print(dataset.columns)
-y = dataset.iloc[:,0:4]
-x = dataset.iloc[:,5:11]
+def partition(dataset,axis):
+    return array(dataset.iloc[:,axis[0]:axis[1]])
+
+y = partition(dataset,[0,4])
+x = partition(dataset,[5,11])
 
 ## Dados de treino e teste
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
@@ -35,7 +38,7 @@ Y_test = scaler.fit_transform(y_test)
 
 
 #--------------- Modelos de predição --------------------------
-
+mlp = model.MLP()
 
 ## Treinamento 
 model.fit(X,Y)
