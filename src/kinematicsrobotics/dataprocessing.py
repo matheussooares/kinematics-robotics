@@ -117,7 +117,7 @@ def concat_data(df_1,df_2):
   df_2 = df_2.reset_index(drop=True)
     
   # Concatena os DataFrames horizontalmente
-  df_concatenado = pd.concat([df_1, df_2], axis=1)
+  df_concatenado = concat([df_1, df_2], axis=1)
     
   return df_concatenado
 
