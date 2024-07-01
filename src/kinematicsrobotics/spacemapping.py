@@ -1,27 +1,17 @@
 from pandas import DataFrame, concat
+from itertools import product
 from numpy import array 
 
-def joint_space(robo,joins,steps):
-    """
-        Mapeia o espaço das juntas por meio das permutações possíveis
-        dos ângulos das juntas.
-
-        Args:
-        - robo (class Robo): instância de um robô fixo com base na notação DH
-        - joins (list): limites minimos e máximos de atuação de cada junta
-        - steps (list): passo de amostragem dos ângulos de cada junta
-        Returns:
-        - dataframe: dataframe contendo o espaço das juntas
-    """
-    # Criando uma lista para armazenar os dados
-    data_join = []
-    # Criando a matriz com todas as combinações de ângulos
-    for angulo_1 in range(joins[0][0], joins[0][1] + 1, steps[0]):
-        for angulo_2 in range(joins[1][0], joins[1][1] + 1, steps[1]):
-            for angulo_3 in range(joins[2][0], joins[2][1] + 1, steps[2]):
-                for angulo_4 in range(joins[3][0], joins[3][1] + 1, steps[3]):
-                    data_join.append([angulo_1, angulo_2, angulo_3, angulo_4, joins[4][0]]) 
-    return DataFrame(data_join, columns=robo.joinName)
+def joint_space(joins, steps):
+    # Gerar listas de ângulos para cada junta
+    ranges = [list(range(joins[i][0], joins[i][1] + 1, steps[i])) for i in range(len(joins))]
+    
+    # Criar todas as combinações possíveis
+    all_combinations = list(product(*ranges))
+    
+    # Adicionar as combinações à lista de dados
+    data_join = [list(comb) for comb in all_combinations]
+    return data_join
 
 # Mapeia o espaço operacional
 def operational_space(robo,data_join):
