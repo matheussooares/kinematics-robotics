@@ -1,18 +1,25 @@
-import os
+from os import path
 import pandas as pd
-class save:
-    def __init__(self,path_project):
-        self.path_project = path_project
+
+class Data:
+    def __init__(self):
+        self._path_project = path.abspath('')
+
+
+class Save(Data):
+    def __init__(self):
+        super().__init__()
         
-    def dataframe(self,data,path):
-        path_data = os.path.join(self.path_project,path)
+        
+    def dataframe(self, data, path_data):
+        path_data = path.join(self._path_project, path_data)
         data.to_csv(path_data,index=False)
 
-class extract:
-    def __init__(self,path_project):
-        self.path_project = path_project
+class Extract(Data):
+    def __init__(self):
+        super().__init__()
 
-    def dataframe(self,path):
-        path_data = os.path.join(self.path_project,path)
+    def dataframe(self, path_data):
+        path_data = path.join(self._path_project, path_data)
         return pd.read_csv(path_data)
 

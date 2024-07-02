@@ -1,13 +1,10 @@
-from kinematicsrobotics import kinematics
+from kinematicsrobotics.kinematics import Robo, Spacemapping
 from kinematicsrobotics import dataprocessing
-from kinematicsrobotics import spacemapping
-from kinematicsrobotics import datahandler
+from kinematicsrobotics.datahandler import Save
 
-# Raiz do diretorio
-path_project = r"C:\Users\mathe\OneDrive\Graduação - UFC\Engenharia da Computação\TCC\Códigos e implementações\V.2"
 
 # Inicializando a classe save
-save = datahandler.save(path_project)
+save = Save()
 
 #----------------------- Mapeamento dos espaços -----------------------
 
@@ -19,27 +16,28 @@ Elos = [['theta_1',10,0,90,0],
         ['theta_5',18,0,0,0]
 ]
 
-robo = kinematics.Robo("Robo",Elos)
+robo = Robo("Robo",Elos)
 
 # Mapeamento do espaço das juntas e o espaço operacional
 joins = [[0, 120],[0, 120],[0, 120],[0, 120],[0, 0]]
 steps = [5, joins[1][1]//10, joins[2][1]//10, joins[3][1]//10, 1]
 
-dataset = spacemapping.mapping(robo,joins,steps)
+mapping = Spacemapping(robo=robo)
+
+dataset = mapping.space_mapping(joins,steps)
 
 # Salvar dados brutos
-path = r'kinematics-robotics\src\data\raw\dataset-raw.csv'
-save.dataframe(dataset,path)
+save.dataframe(dataset, r'src\data\raw\dataset-raw.csv')
 
 #----------------------- Pré-processamento dos dados -----------------------
 # incluir as colunas pich, roll e yaw
 dataset = dataprocessing.concat_data(
-    dataset[['theta_1','theta_2','theta_3','theta_4','theta_5','p_x','p_y','p_z']],
-    dataprocessing.rotations(dataset)
+                dataset[['theta_1','theta_2','theta_3','theta_4','theta_5','p_x','p_y','p_z']],
+                dataprocessing.rotations(dataset)
 )
 
-path = r'kinematics-robotics\src\data\raw\dataset-semi-raw.csv' # Salvar dados brutos
-save.dataframe(dataset,path)
+# Salvar dados brutos
+save.dataframe(dataset, r'src\data\raw\dataset-semi-raw.csv')
 
 # Altura negativa
 height = 0
@@ -60,7 +58,7 @@ attr_redundancy = ['theta_2','theta_3','theta_4','theta_5']
 
 for radi in radius:
      df_redcy = dataprocessing.remove_redundancy(dataset,radi,attr_neighbors,attr_redundancy) 
-     path = f'kinematics-robotics\\src\\data\\ready\\dataset-radius-{radi}cm.csv'
+     path = f'src\\data\\ready\\dataset-radius-{radi}cm.csv'
      save.dataframe(df_redcy,path)   
 
 
