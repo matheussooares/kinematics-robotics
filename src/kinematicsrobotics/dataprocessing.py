@@ -19,7 +19,7 @@ def remove_height_join(df_dataset,elos,namebot,namejoins,height):
     # Percorre a base de dados 
     for indx,angle in df_join3.iterrows():
         # Se altura alcançada em Z for menor que a desejada
-        if (robo.frame_effector(angle)[2][3]) < height:
+        if (robo.frame(angle)[11]) < height:
             # Apaga a linha do dataset
             df_dataset = df_dataset.drop(indx)
     return df_dataset
