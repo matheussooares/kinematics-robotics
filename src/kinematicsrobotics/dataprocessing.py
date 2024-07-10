@@ -1,7 +1,11 @@
-from kinematicsrobotics import kinematics as forward
+from kinematics import Robo
 from numpy import array,arctan2,cos,sin,sqrt
 from pandas import concat, DataFrame
 
+
+
+class DataTransformation:
+   pass
 
 def remove_height(df_dataset,height):
     # pega os indices que se deseja remover
@@ -12,7 +16,7 @@ def remove_height(df_dataset,height):
 
 def remove_height_join(df_dataset,elos,namebot,namejoins,height):
     # Cria um robô intermediario 
-    robo = forward.Robo(namebot,elos)
+    robo = Robo(namebot,elos)
     # Pega apenas as juntas referentes ao robô intermediário
     df_join3 = df_dataset[namejoins]
     
@@ -144,3 +148,29 @@ def rotations(dataset):
         df.append([roll,pich,yaw])
     df = DataFrame(df,columns = colunas)
     return df
+
+class DataPreprocessing:
+
+    def __init__(self, *, dataset: DataFrame, x_axis: list = None, y_axis: list = None) -> None:
+      self._dataset = dataset
+      self._x_axis = x_axis
+      self._y_axis = y_axis
+      self.__partition()
+    
+    def __partition(self):
+      if self._x_axis and self._y_axis:
+        data_partition = []
+        axis = [self._y_axis,self._x_axis]
+        for axi in axis:
+            data_partition.append(array(self._dataset.iloc[:,axi[0]:axi[1]]))
+        self._y, self._x  = data_partition[0], data_partition[1]
+
+from datahandler import Extract
+
+extract = Extract()
+path_data = r'src\data\ready\dataset-radius-1.5cm.csv'
+
+dataset  = extract.dataframe(path_data)
+
+DP  = DataPreprocessing(dataset = dataset)
+
