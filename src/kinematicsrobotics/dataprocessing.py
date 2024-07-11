@@ -149,21 +149,39 @@ def rotations(dataset):
     df = DataFrame(df,columns = colunas)
     return df
 
+from sklearn.model_selection import train_test_split
+
 class DataPreprocessing:
 
-    def __init__(self, *, dataset: DataFrame, x_axis: list = None, y_axis: list = None) -> None:
+    def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1) -> None:
       self._dataset = dataset
-      self._x_axis = x_axis
-      self._y_axis = y_axis
-      self.__partition()
+      self.partition(x_labels = x_labels, y_labels = y_labels)
+      self.split(size_train, size_val, size_test)
     
-    def __partition(self):
-      if self._x_axis and self._y_axis:
+    def partition(self , *, x_labels, y_labels):
+      self._x_labels = x_labels
+      self._y_labels = y_labels
+
+      if self._x_labels and self._y_labels:
         data_partition = []
-        axis = [self._y_axis,self._x_axis]
+        axis = [self._x_labels,self._y_labels]
         for axi in axis:
-            data_partition.append(array(self._dataset.iloc[:,axi[0]:axi[1]]))
-        self._y, self._x  = data_partition[0], data_partition[1]
+          data_partition.append(array(self._dataset[axi]))
+        self._x, self._y = data_partition[0], data_partition[1]
+      else:
+        self._y, self._x = None, None
+      
+      return self._y, self._x
+
+    def split(self, size_train, size_val, size_test):
+      self._size_train = size_train
+      self._size_val = size_val
+      self._size_test = size_test
+
+      if self._x and self._y:
+        x_train, x_test, y_train, y_test = train_test_split(self._x, self._y, test_size=self._size_test)
+
+
 
 from datahandler import Extract
 
@@ -172,5 +190,9 @@ path_data = r'src\data\ready\dataset-radius-1.5cm.csv'
 
 dataset  = extract.dataframe(path_data)
 
-DP  = DataPreprocessing(dataset = dataset)
+data  = DataPreprocessing(dataset = dataset, 
+                        x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+                        y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
+                        )
+print(data)
 
