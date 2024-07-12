@@ -150,13 +150,25 @@ def rotations(dataset):
     return df
 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 class DataPreprocessing:
-
-    def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1) -> None:
+    def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1, normalize = True) -> None:
       self._dataset = dataset
-      self.partition(x_labels = x_labels, y_labels = y_labels)
-      self.split(size_train, size_val, size_test)
+      self.partition(x_labels = x_labels, 
+                     y_labels = y_labels)
+      self.split(size_train = size_train, 
+                 size_val = size_val, 
+                 size_test = size_test,
+                 normalize = normalize)
+      
+    @property
+    def data_train_test(self):
+      return self._x_train, self._x_test, self._y_train, self._y_test
+
+    @property
+    def scale(self):
+      return self._scaler_x, self._scaler_y
     
     def partition(self , *, x_labels, y_labels):
       self._x_labels = x_labels
@@ -173,13 +185,34 @@ class DataPreprocessing:
       
       return self._y, self._x
 
-    def split(self, size_train, size_val, size_test):
+    def split(self, *,size_test, size_train = None, size_val = None, normalize = True):
       self._size_train = size_train
       self._size_val = size_val
       self._size_test = size_test
 
       if self._x and self._y:
         x_train, x_test, y_train, y_test = train_test_split(self._x, self._y, test_size=self._size_test)
+        if normalize:
+          x_train, x_test, y_train, y_test, scaler_x, scaler_y  = self.zscore(x_train, x_test, y_train, y_test)
+
+      else: 
+        x_train, x_test, y_train, y_test, scaler_x, scaler_y = None, None, None, None , None, None
+      
+      self._x_train, self._x_test, self._y_train, self._y_test, self._scaler_x, self._scaler_y = x_train, x_test, y_train, y_test, scaler_x, scaler_y
+    
+    @staticmethod
+    def zscore(x_train, x_test, y_train, y_test):
+      scaler_x = StandardScaler()
+      scaler_y = StandardScaler()
+
+      x_train = scaler_x.fit_transform(x_train)
+      x_test = scaler_x.transform(x_test)
+
+      y_train = scaler_y.fit_transform(y_train)
+      y_test = scaler_y.transform(y_test)
+
+      return x_train, x_test, y_train, y_test, scaler_x, scaler_y
+      
 
 
 
@@ -191,8 +224,8 @@ path_data = r'src\data\ready\dataset-radius-1.5cm.csv'
 dataset  = extract.dataframe(path_data)
 
 data  = DataPreprocessing(dataset = dataset, 
-                        x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
-                        y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
+                          x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+                          y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
                         )
-print(data)
+print(data.data_train_test)
 
