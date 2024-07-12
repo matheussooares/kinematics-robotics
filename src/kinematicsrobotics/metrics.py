@@ -1,17 +1,25 @@
 from sklearn.metrics import mean_squared_error
-from plottingutils import Plot
+from dataprocessing import DataPreprocessing
 from model import Model
 
 
 
 class Metrics:
-    def __init__(self, *, model: Model):
+    def __init__(self, *, model: Model, datapreprocessing: DataPreprocessing):
         self._model = model
-
-    def mse(self, x, y):
-       return mean_squared_error(x, y, multioutput='raw_values')
+        self._datapreprocessing = datapreprocessing
     
-    # def mse_real(self):
+    def mse_joint(self):
+        self._model.predict()
+        pass
+
+
+
+
+    @staticmethod
+    def mse(real, predict):
+       return mean_squared_error(real, predict, multioutput='raw_values')
+    
     
 
 
@@ -22,6 +30,7 @@ class Metrics:
 
 
     #import matplotlib.pyplot as plt
+    #from plottingutils import Plot
     # def curve_loss(self):
 
     #     plt.plot(self._model.loss_curve_)

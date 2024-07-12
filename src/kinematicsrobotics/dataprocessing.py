@@ -1,4 +1,4 @@
-from kinematics import Robo
+from kinematicsrobotics.kinematics import Robo
 from numpy import array,arctan2,cos,sin,sqrt
 from pandas import concat, DataFrame
 
@@ -152,11 +152,12 @@ def rotations(dataset):
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-class DataPreprocessing:
+class Preprocessing:
     def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1, normalize = True) -> None:
       self._dataset = dataset
       self.partition(x_labels = x_labels, 
                      y_labels = y_labels)
+      
       self.split(size_train = size_train, 
                  size_val = size_val, 
                  size_test = size_test,
@@ -190,7 +191,7 @@ class DataPreprocessing:
       self._size_val = size_val
       self._size_test = size_test
 
-      if self._x and self._y:
+      if self._x is not None and self._y is not None:
         x_train, x_test, y_train, y_test = train_test_split(self._x, self._y, test_size=self._size_test)
         if normalize:
           x_train, x_test, y_train, y_test, scaler_x, scaler_y  = self.zscore(x_train, x_test, y_train, y_test)
@@ -216,16 +217,14 @@ class DataPreprocessing:
 
 
 
-from datahandler import Extract
 
-extract = Extract()
-path_data = r'src\data\ready\dataset-radius-1.5cm.csv'
 
-dataset  = extract.dataframe(path_data)
 
-data  = DataPreprocessing(dataset = dataset, 
-                          x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
-                          y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
-                        )
-print(data.data_train_test)
+# data  = DataPreprocessing(dataset = dataset, 
+#                           x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+#                           y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
+#                         )
+# print(data.data_train_test)
+# x,y = data.scale
+# print(f"{x.mean_}")
 

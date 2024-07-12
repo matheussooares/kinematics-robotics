@@ -1,56 +1,46 @@
-from kinematicsrobotics import datahandler
-from kinematicsrobotics import model
+from kinematicsrobotics.datahandler import Extract
+from kinematicsrobotics.dataprocessing import Preprocessing
+from kinematicsrobotics.model import Model
 
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+# Extração das bases de dados
+extrator = Extract()
 
-from numpy import array
+dataset = extrator.dataframe(path_data = r'src\data\ready\dataset-radius-0.5cm.csv')
 
-import matplotlib.pyplot as plt
+# Pré-processamento da base de dados
+processed_data = Preprocessing(dataset = dataset, 
+                               x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+                               y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
+                               )
 
+x_train, x_test, y_train, y_test = processed_data.data_train_test
 
-#--------------- Extração e transformação dos dados ---------------------
-path_project = r'C:\Users\mathe\OneDrive\Graduação - UFC\Engenharia da Computação\TCC\Códigos e implementações\V.2\kinematics-robotics'
+# Estimação de hiperparâmetros
+history = extrator.dataframe(r'src\data\ready\history.csv')
 
-path_data = r'src\data\ready\dataset-radius-0.5cm.csv'
+history_best = history[history['rank_test_score'] == 1]
 
-ext = datahandler.extract(path_project)
+params = eval(history_best.iloc[0]['params'])
 
-dataset = ext.dataframe(path_data)
+#  Modelos de predição
+mlp = Model.mlp_regressor(**params)
 
-## Dados de entrada e saída do modelo
-def partition(dataset,axis):
-    return array(dataset.iloc[:,axis[0]:axis[1]])
+# Treinamento
+mlp.fit(x = x_train, y = y_train)
 
-y = partition(dataset,[0,4])
-x = partition(dataset,[5,11])
+y_est = mlp.predict(x = x_train)
 
-## Dados de treino e teste
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+print(y_est)
 
-## Normalizando os dados
-scaler = StandardScaler()
-X = scaler.fit_transform(x_train)
-Y = scaler.fit_transform(y_train)
-X_test = scaler.fit_transform(x_test)
-Y_test = scaler.fit_transform(y_test)
+# print(f"Melhor erro: {model.best_loss_}\n")
 
+# # plt.plot(model.loss_curve_)
+# # plt.title('Erro Quadratico')
+# # plt.xlabel('Épocas')
+# # plt.ylabel('MSE')
+# # plt.show()
 
-#--------------- Modelos de predição --------------------------
-mlp = model.MLP()
-
-## Treinamento 
-model.fit(X,Y)
-
-print(f"Melhor erro: {model.best_loss_}\n")
-
-# plt.plot(model.loss_curve_)
-# plt.title('Erro Quadratico')
-# plt.xlabel('Épocas')
-# plt.ylabel('MSE')
-# plt.show()
-
-## Métrica
-mse = modelmlp.predict_mse(model,X_test,Y_test)
-print(mse)
+# ## Métrica
+# mse = modelmlp.predict_mse(model,X_test,Y_test)
+# print(mse)
