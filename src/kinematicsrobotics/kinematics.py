@@ -150,11 +150,13 @@ class Spacemapping:
         return data_join
 
     # Mapeia o espaço operacional
-    def operational_space(self, data_join: list[list], n_atributos=12):
+    def operational_space(self, data_join: list[list], n_atributos=12, output_format: str = 'list'):
         data = []
         for pose in data_join:
             matrix = self._robo.frame(pose)
             data.append(self.float(matrix[:n_atributos]))
+        if output_format == 'DataFrame':
+          data = DataFrame(data,columns=self._LABELSOPERATIONAL)
         return data
 
     # Relaciona os espaços mapeados melhorado

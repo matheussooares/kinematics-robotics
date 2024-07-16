@@ -165,6 +165,7 @@ class Preprocessing:
       
     @property
     def data_train_test(self):
+      self.split(size_test = self._size_test)
       return self._x_train, self._x_test, self._y_train, self._y_test
 
     @property
@@ -186,7 +187,7 @@ class Preprocessing:
       
       return self._y, self._x
 
-    def split(self, *,size_test, size_train = None, size_val = None, normalize = True):
+    def split(self, *, size_test, size_train = None, size_val = None, normalize = True):
       self._size_train = size_train
       self._size_val = size_val
       self._size_test = size_test
