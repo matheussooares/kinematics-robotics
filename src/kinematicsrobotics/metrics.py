@@ -1,3 +1,4 @@
+from numpy import append
 from sklearn.metrics import mean_squared_error
 from dataprocessing import DataPreprocessing
 from model import Model
@@ -9,9 +10,19 @@ class Metrics:
         self._model = model
         self._datapreprocessing = datapreprocessing
     
-    def mse_joint(self):
-        self._model.predict()
-        pass
+    def predict_joint(self, x):
+        y_predict = self._model.predict(x)
+        y_predict = self._datapreprocessing._scaler_y.inverse_transform(y_predict)
+        return y_predict
+    
+    def predict_operacional(self):
+        
+        def transfor(array):
+            novo_array = []
+            for sub_array in array:
+                    novo_sub_array = append(sub_array, 0)
+                    novo_array.append(novo_sub_array)
+            return novo_array
 
 
 
