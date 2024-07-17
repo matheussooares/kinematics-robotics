@@ -24,16 +24,16 @@ class Metrics:
         return self.mse(y_real, y_predict)
     
     def mse_operacional(self, *, x):
-        x_real = self._datapreprocessing._scaler_x.inverse_transform(x)
-        self.predict_operacional()
-        return x_real
+        x_real = x[:,:3]
+        x_estimado = self.predict_operacional(x = x)
+        return self.mse(x_real,x_estimado)
 
     def predict_joint(self, *, x):
         y_predict = self._model.predict(x = x)
         y_predict = self._datapreprocessing._scaler_y.inverse_transform(y_predict)
         return y_predict
     
-    def predict_operacional(self, *,x):
+    def predict_operacional(self, *, x, x_labels = ['p_x','p_y','p_z'], output_format = 'DataFrame'):
         def transfor(array):
             novo_array = []
             for sub_array in array:
@@ -43,11 +43,13 @@ class Metrics:
          
         y_predict_join =  self.predict_joint(x = x)
         y_predict_join = transfor(y_predict_join)
+
+        data_operacional = self._mapping.operational_space(y_predict_join, output_format=output_format)
+
+        if output_format=='DataFrame':
+            data_operacional = data_operacional[x_labels]
         
-        return self._mapping.operational_space(y_predict_join, output_format='DataFrame')
-
-
-
+        return data_operacional
 
     @staticmethod
     def mse(real, predict):
