@@ -24,9 +24,9 @@ class Metrics:
         return self.mse(y_real, y_predict)
     
     def mse_operacional(self, *, x):
-        x_real = x[:,:3]
+        x_real = self._datapreprocessing._scaler_x.inverse_transform(x)[:,:3]
         x_estimado = self.predict_operacional(x = x)
-        return self.mse(x_real,x_estimado)
+        return self.mse(x_real,x_estimado), x_real, x_estimado
 
     def predict_joint(self, *, x):
         y_predict = self._model.predict(x = x)
@@ -46,7 +46,7 @@ class Metrics:
 
         data_operacional = self._mapping.operational_space(y_predict_join, output_format=output_format)
 
-        if output_format=='DataFrame':
+        if output_format=='DataFrame' and x_labels:
             data_operacional = data_operacional[x_labels]
         
         return data_operacional
