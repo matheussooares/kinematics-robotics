@@ -172,6 +172,10 @@ class Preprocessing:
     def scale(self):
       return self._scaler_x, self._scaler_y
     
+    @property
+    def size_split(self):
+      return  self._size_test, self._size_train, self._size_val
+    
     def partition(self , *, x_labels, y_labels):
       self._x_labels = x_labels
       self._y_labels = y_labels
@@ -217,15 +221,7 @@ class Preprocessing:
       
 
 
+# def statics_data_split(scaler):
+#     return DataFrame({'Média': scaler.mean_, 'Desvio Padrão': scaler.scale_})
 
-
-
-
-# data  = DataPreprocessing(dataset = dataset, 
-#                           x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
-#                           y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4']
-#                         )
-# print(data.data_train_test)
-# x,y = data.scale
-# print(f"{x.mean_}")
 

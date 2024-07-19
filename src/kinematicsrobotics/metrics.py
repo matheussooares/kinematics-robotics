@@ -12,7 +12,7 @@ class Metrics:
         self._datapreprocessing = preprocessing
         self.robotic(robo = robo)
     
-    def robotic(self, *,robo: Robo):
+    def robotic(self, *, robo: Robo):
         self._robo = robo
         if robo:
             self._mapping = Spacemapping(robo)
@@ -26,7 +26,7 @@ class Metrics:
     def mse_operacional(self, *, x):
         x_real = self._datapreprocessing._scaler_x.inverse_transform(x)[:,:3]
         x_estimado = self.predict_operacional(x = x)
-        return self.mse(x_real,x_estimado), x_real, x_estimado
+        return self.mse(x_real,x_estimado)
 
     def predict_joint(self, *, x):
         y_predict = self._model.predict(x = x)
