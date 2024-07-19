@@ -1,4 +1,4 @@
-from sympy import sin, cos, Matrix, symbols, simplify, nsimplify, eye, Symbol, rad
+from sympy import sin, cos, Matrix, symbols, simplify, nsimplify, eye, Symbol, rad, latex
 from pandas import DataFrame, concat
 from itertools import product
 from numpy import radians
@@ -100,7 +100,7 @@ class Robo:
     
     # Método privado que cria uma matriz de transformação homogênea de DH genérica
     def __matrix_homogeneous(self,Elo):
-        theta = Elo.theta + rad(Elo.alpha)
+        theta = Elo.theta + rad(Elo.phase)
         alpha = rad(Elo.alpha)
         matrix = Matrix([
             [cos(theta), -sin(theta) * cos(alpha), sin(theta) * sin(alpha), Elo.a * cos(theta)],
@@ -132,6 +132,10 @@ class Robo:
         return self._matrixForwardKinematics.evalf(subs=input)
       else:
          print("Número de entradas inválidos")
+    
+    def latex(self):
+       return latex(self._matrixForwardKinematics)
+            
        
             
 class Spacemapping:
