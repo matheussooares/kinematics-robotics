@@ -14,7 +14,7 @@ class Model:
         return self._model
     
     @classmethod
-    def mlp_regressor(cls,*, EPOCHS = 1000, EPOCHS_NOCHANGE = 5, ERROR = 1e-4, early_stopping = True, verbose=False, random_state=42, **kw):
+    def mlp_regressor(cls,*, EPOCHS = 1000, EPOCHS_NOCHANGE = 5, ERROR = 1e-4, early_stopping = True, verbose=True, random_state=42, **kw):
         model = MLPRegressor(max_iter = EPOCHS,
                             tol = ERROR,
                             n_iter_no_change = EPOCHS_NOCHANGE,
