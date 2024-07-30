@@ -1,4 +1,4 @@
-from datahandler import Extract, Save
+from kinematicsrobotics.datahandler import Extract, Save
 from pandas import DataFrame
 from matplotlib.pyplot import subplots, show, title, tight_layout, figure
 from mpl_toolkits.mplot3d import Axes3D
@@ -29,26 +29,29 @@ class Plot:
     grafico.scatter(self._data[labels[0]], 
             self._data[labels[1]], 
             s=s, 
-            c=rand(self._tam_data), 
+            c=rand(self._tam_data[0]), 
             alpha=alpha, 
             cmap=cmap,
             ** kw)
     show()
 
-  def scatter3D(self,*, labels, s = 1,  cmap="inferno", alpha=1, ** kw):
+  def scatter3D(self,*, labels, s = 1,  cmap="inferno", alpha=1, name_labels, **kw):
     fig = figure(figsize=self._figsize)
     ax = fig.add_subplot(111, projection='3d')
 
     ax.scatter(self._data[labels[0]], 
               self._data[labels[1]], 
               self._data[labels[2]],
-              s = s, 
+              s = s,
+              c = rand(self._tam_data),
               alpha=alpha, 
-              cmap=cmap)
+              cmap=cmap,
+              **kw
+    )
 
-    ax.set_xlabel(labels[0])
-    ax.set_ylabel(labels[1])
-    ax.set_zlabel(labels[2])
+    ax.set_xlabel(name_labels[0])
+    ax.set_ylabel(name_labels[1])
+    ax.set_zlabel(name_labels[2])
     show()
 
   def save(self, path):
@@ -61,5 +64,3 @@ class Plot:
       self._data = self._extract.dataframe(path)
 
 
-plote = Plot(path=r"src\data\raw\dataset-semi-raw.csv")
-plote.scatter3D(labels=['p_x','p_y','p_z'])
