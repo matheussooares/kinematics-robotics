@@ -12,7 +12,7 @@ class Save(Data):
         super().__init__()
         
         
-    def dataframe(self, data, path_data):
+    def dataframe(self, *, data, path_data):
         path_data = path.join(self._path_project, path_data)
         data.to_csv(path_data,index=False)
     
