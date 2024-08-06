@@ -14,7 +14,7 @@ size_train,size_val,size_test = 0.7, 0.2, 0.1
 data  = Preprocessing(dataset = dataset, 
                       x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
                       y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4'],
-                      path_data_split = r'src\data\data-split'
+                      path_data_split = r'src\data\ready\data-split'
 )
 
 
