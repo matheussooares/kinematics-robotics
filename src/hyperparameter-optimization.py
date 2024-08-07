@@ -47,5 +47,4 @@ cv.parameter(activation = activation)
 best_estimator = cv.RandomizedSearch(n_iter = 1000, 
                                      path_cv_results = r'src\data\history\parametersearch-MLP\cv_results.csv', 
                                      path_best_params = r'src\data\history\parametersearch-MLP\best_params.csv'
-                                     
 )
