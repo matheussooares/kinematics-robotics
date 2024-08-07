@@ -1,3 +1,5 @@
-0
-hidden_layer_sizes
-activation
+hidden_layer_sizes,activation
+300,tanh
+300,tanh
+150,tanh
+300,tanh
