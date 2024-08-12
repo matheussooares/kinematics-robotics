@@ -71,9 +71,7 @@ class ParameterSearchMLP(ParameterOptimizer):
         if path_best_params:
             self._save.dataframe(data = best_params, path_data = path_best_params)
 
-        # Melhor hiperparâmetro
-        
-       
+        # Melhor hiperparâmetro       
 
         return random_search.best_estimator_
     
