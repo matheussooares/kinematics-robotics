@@ -9,7 +9,7 @@ ext = Extract()
 dataset = ext.dataframe(r'src\data\ready\dataset-radius-1cm.csv')
 
 # Divisão dos dados
-size_train,size_val,size_test = 0.7, 0.2, 0.1
+size_train, size_val, size_test = 0.7, 0.2, 0.1
 
 data  = Preprocessing(dataset = dataset, 
                       x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
@@ -36,15 +36,23 @@ cv = ParameterSearchMLP(min_neurons = min_neurons,
                         max_neurons = max_neurons, 
                         num_layers = layers, 
                         step = step,
-                        model = mlp, 
+                        model = mlp,
+                        activation = activation,
                         x_train = x_train,
                         y_train = y_train,
                         n_splits = 2
 )
 
-cv.parameter(activation = activation)
+# Métricas de avaliação
+scoring = {
+    'r2': 'r2',  # Coeficiente de Determinação
+    'neg_mse': 'neg_mean_squared_error',  # Erro Quadrático Médio Negativo
+}
 
-best_estimator = cv.RandomizedSearch(n_iter = 1300, 
+best_estimator = cv.RandomizedSearch(scoring = scoring,
+                                     refit='neg_mse', 
+                                     n_iter = 10, 
                                      path_cv_results = r'src\data\history\parametersearch-MLP\cv_results.csv', 
-                                     path_best_params = r'src\data\history\parametersearch-MLP\best_params.csv'
+                                     path_best_params = r'src\data\history\parametersearch-MLP\best_params.csv',
+                                     
 )

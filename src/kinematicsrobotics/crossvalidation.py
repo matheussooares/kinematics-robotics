@@ -34,14 +34,17 @@ class ParameterOptimizer:
     
        
 class ParameterSearchMLP(ParameterOptimizer):
-    def __init__(self, *, min_neurons: int, max_neurons: int, num_layers: int, step: int, **kw) -> None:
+    def __init__(self, *, min_neurons: int, max_neurons: int, num_layers: int, step: int, activation, **kw) -> None:
         self._min_neurons = min_neurons
         self._max_neurons = max_neurons
         self._num_layers = num_layers
         self._step = step
+        self._activation = activation
+        self.parameter()
         super().__init__(**kw)
 
-    def RandomizedSearch(self,*, scoring = 'neg_mean_squared_error', n_iter, path_cv_results = None, path_best_params = None):
+
+    def RandomizedSearch(self,*, scoring = 'neg_mean_squared_error', n_iter, path_cv_results = None, path_best_params = None, **kw):
         # Configura os parâmetros da técnica de otimização 
         random_search = RandomizedSearchCV(estimator = self._model.model, 
                                            param_distributions = self.param_grid, 
@@ -50,7 +53,8 @@ class ParameterSearchMLP(ParameterOptimizer):
                                            n_iter = n_iter, 
                                            random_state = 42, 
                                            return_train_score = True,
-                                           verbose = True
+                                           verbose = True,
+                                           **kw
         )
         
         # Treina os modelos
@@ -73,7 +77,7 @@ class ParameterSearchMLP(ParameterOptimizer):
 
         return random_search.best_estimator_
     
-    def parameter(self, *, activation):
+    def parameter(self):
         param_grid = []
         
         for i, layers in enumerate(self._num_layers):
@@ -85,8 +89,9 @@ class ParameterSearchMLP(ParameterOptimizer):
 
             param = { 
                 'hidden_layer_sizes': hidden_layer,
-                'activation': activation
+                'activation': self._activation
             }
+
             param_grid.append(param)
  
         self.param_grid = param_grid
