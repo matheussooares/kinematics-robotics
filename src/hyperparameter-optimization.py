@@ -51,7 +51,7 @@ scoring = {
 
 best_estimator = cv.RandomizedSearch(scoring = scoring,
                                      refit='neg_mse', 
-                                     n_iter = 10, 
+                                     n_iter = 2000, 
                                      path_cv_results = r'src\data\history\parametersearch-MLP\cv_results.csv', 
                                      path_best_params = r'src\data\history\parametersearch-MLP\best_params.csv',
                                      
