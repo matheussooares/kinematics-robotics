@@ -25,9 +25,9 @@ x_train, x_test, y_train, y_test = data.data_train_test
 mlp = Model.mlp_regressor()
 
 # Espaço de busca do grid search
-min_neurons= [50, 100, 100, 100]
-max_neurons = [3000, 350, 300, 300]
-step = [5, 10, 25, 50]
+min_neurons= [20, 100, 100, 100]
+max_neurons = [6000, 500, 500, 400]
+step = [5, 10, 35, 55]
 layers = [1, 2, 3, 4]
 activation =  ['relu', 'tanh']
 
