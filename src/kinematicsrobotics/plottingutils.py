@@ -28,24 +28,24 @@ class Plot:
     fig, grafico = subplots(nrows=1, ncols=1, figsize = self._figsize)
     grafico.scatter(self._data[labels[0]], 
             self._data[labels[1]], 
-            s=s, 
-            c=rand(self._tam_data[0]), 
+            s=s,
             alpha=alpha, 
             cmap=cmap,
             ** kw)
     show()
 
-  def scatter3D(self,*, labels, s = 1,  cmap="inferno", alpha=1, name_labels, **kw):
+  def scatter3D(self,*, labels: list, s = 1, alpha=1, name_labels: list = None, **kw):
     fig = figure(figsize=self._figsize)
     ax = fig.add_subplot(111, projection='3d')
+
+    if not name_labels:
+      name_labels = labels
 
     ax.scatter(self._data[labels[0]], 
               self._data[labels[1]], 
               self._data[labels[2]],
               s = s,
-              c = rand(self._tam_data),
-              alpha=alpha, 
-              cmap=cmap,
+              alpha=alpha,
               **kw
     )
 
@@ -58,7 +58,7 @@ class Plot:
     self._save.figure(path)
 
   def __data(self, data, path):
-    if data or (isinstance(data, DataFrame) and not data.empty):
+    if (isinstance(data, DataFrame) and not data.empty):
       self._data = data
     elif path:
       self._data = self._extract.dataframe(path)
