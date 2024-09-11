@@ -52,7 +52,7 @@ scoring = {
 best_estimator = cv.RandomizedSearch(scoring = scoring,
                                      refit='neg_mse', 
                                      n_iter = 2000, 
-                                     path_cv_results = r'src\data\history\parametersearch-MLP\cv_results.csv', 
-                                     path_best_params = r'src\data\history\parametersearch-MLP\best_params.csv',
+                                     path_cv_results = r'src\data\history\parametersearch-mlp-global\cv_results.csv', 
+                                     path_best_params = r'src\data\history\parametersearch-mlp-global\best_params.csv',
                                      
 )
