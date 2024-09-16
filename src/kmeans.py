@@ -1,19 +1,19 @@
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-from kinematicsrobotics.datahandler import Save, Extract
+from kinematicsrobotics.datahandler import Extract
 from kinematicsrobotics.plottingutils import Plot
-
+from kinematicsrobotics.model import Cluster
 
 ext = Extract()
 dataset = ext.dataframe(r'src\data\ready\dataset-radius-1cm.csv')
 
-scaler = StandardScaler()
-kmeans = KMeans(n_clusters=8, 
-                random_state=42,
+kmeans = Cluster(data = dataset[['p_x','p_y','p_z']], 
+                n_clusters = 4, 
                 n_init = 'auto')
+#'roll','pich','yaw'
 
-#,'roll','pich','yaw'
-kmeans.fit(scaler.fit_transform(dataset[['p_x','p_y','p_z']]))
+kmeans.save(columns=['p_x','p_y','p_z'],
+            path_data_centers = r'src\data\ready\data-r1cm-split-local\centers.csv',
+            path_data_cluster = r'src\data\ready\data-r1cm-split-local\cluster.csv',
+)
 
 plt = Plot(data = dataset, figsize=(10,30))
 
@@ -22,4 +22,4 @@ plt.scatter3D(labels=['p_x','p_y','p_z'],
               s = 3,
               cmap="viridis",
               alpha=1,
-              c = kmeans.labels_)
+              c = kmeans._model.labels_)
