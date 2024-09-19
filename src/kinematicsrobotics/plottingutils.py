@@ -1,11 +1,12 @@
 from kinematicsrobotics.datahandler import Extract, Save
 from pandas import DataFrame
-from matplotlib.pyplot import subplots, show, title, tight_layout, figure
+from matplotlib.pyplot import subplots, show, title, axes, figure
 from mpl_toolkits.mplot3d import Axes3D
 from numpy.random import rand
+import seaborn as sns
 
 class Plot:
-  def __init__(self,*, data: DataFrame = None, path: str = None, figsize: tuple = (10, 5)):
+  def __init__(self,*, data: DataFrame = None, path: str = None, figsize: tuple = (8, 8)):
     self._save = Save()
     self._extract = Extract()
     self.__data(data, path)
@@ -35,23 +36,33 @@ class Plot:
     show()
 
   def scatter3D(self,*, labels: list, s = 1, alpha=1, name_labels: list = None, **kw):
+    # sns.set_theme(style = "whitegrid")
     fig = figure(figsize=self._figsize)
-    ax = fig.add_subplot(111, projection='3d')
+    ax = axes(projection='3d')
 
     if not name_labels:
       name_labels = labels
 
-    ax.scatter(self._data[labels[0]], 
-              self._data[labels[1]], 
-              self._data[labels[2]],
-              s = s,
-              alpha=alpha,
-              **kw
+    scatter = ax.scatter(self._data[labels[0]], 
+                         self._data[labels[1]], 
+                         self._data[labels[2]],
+                         s = s,
+                         alpha=alpha,
+                         **kw
     )
+    color = '#D3D3D3'
+    # Melhorando a grade
+    ax.grid(True)  # Ativando a grade
+    ax.xaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo X
+    ax.yaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo Y
+    ax.zaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo Z
+
 
     ax.set_xlabel(name_labels[0])
     ax.set_ylabel(name_labels[1])
     ax.set_zlabel(name_labels[2])
+
+    
     show()
 
   def save(self, path):
