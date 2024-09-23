@@ -14,6 +14,7 @@ class Plot:
     self._figsize = figsize
 
   def plot2D(self,*, labels: list, path: str = None,titulo: str = None, ** kw):
+    
     fig, grafico = subplots(nrows=1, ncols=1, figsize = self._figsize)
     grafico.plot(self._data[labels[0]],
                 self._data[labels[1]],
@@ -35,10 +36,10 @@ class Plot:
             ** kw)
     show()
 
-  def scatter3D(self,*, labels: list, s = 1, alpha=1, name_labels: list = None, **kw):
-    # sns.set_theme(style = "whitegrid")
+  def scatter3D(self,*, labels: list, s = 1, alpha=1, name_labels: list = None, dataset_ext  = None, **kw):
+    sns.set_theme(style = "whitegrid")
     fig = figure(figsize=self._figsize)
-    ax = axes(projection='3d')
+    ax = axes([0, 0, 1, 1],projection='3d')
 
     if not name_labels:
       name_labels = labels
@@ -50,12 +51,24 @@ class Plot:
                          alpha=alpha,
                          **kw
     )
-    color = '#D3D3D3'
+
+    if (isinstance(dataset_ext, DataFrame) and not dataset_ext.empty):
+      scatter = ax.scatter(dataset_ext[labels[0]], 
+                           dataset_ext[labels[1]], 
+                           dataset_ext[labels[2]],
+                           s = 1,
+                           c='red',
+                           alpha=0.5,
+                           facecolors='none',
+                           marker='o'
+      )
+
+    color = 'black'
     # Melhorando a grade
     ax.grid(True)  # Ativando a grade
-    ax.xaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo X
-    ax.yaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo Y
-    ax.zaxis._axinfo["grid"].update(color = color, linestyle = '-', linewidth = 0.7, alpha = 0.1)  # Grid no eixo Z
+    ax.xaxis._axinfo["grid"].update(color = color, linestyle = '--', linewidth = 0.5, alpha = 0.9)  # Grid no eixo X
+    ax.yaxis._axinfo["grid"].update(color = color, linestyle = '--', linewidth = 0.5, alpha = 0.9)  # Grid no eixo Y
+    ax.zaxis._axinfo["grid"].update(color = color, linestyle = '--', linewidth = 0.5, alpha = 0.9)  # Grid no eixo Z
 
 
     ax.set_xlabel(name_labels[0])

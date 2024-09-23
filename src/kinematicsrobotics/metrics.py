@@ -7,9 +7,10 @@ from kinematicsrobotics.model import Model
 
 
 class Metrics:
-    def __init__(self, *, model: Model, preprocessing: Preprocessing, robo: Robo = None):
+    def __init__(self, *, model: Model, scaler_x, scaler_y, robo: Robo = None):
         self._model = model
-        self._datapreprocessing = preprocessing
+        self._scaler_x = scaler_x
+        self._scaler_y = scaler_y
         self.robotic(robo = robo)
     
     def robotic(self, *, robo: Robo):
@@ -19,18 +20,18 @@ class Metrics:
 
     def mse_joint(self, *, x, y):
         y_predict = self.predict_joint(x = x)
-        y_real = self._datapreprocessing._scaler_y.inverse_transform(y)
+        y_real = self._scaler_y.inverse_transform(y)
         
         return self.mse(y_real, y_predict)
     
     def mse_operacional(self, *, x):
-        x_real = self._datapreprocessing._scaler_x.inverse_transform(x)[:,:3]
+        x_real = self._scaler_x.inverse_transform(x)[:,:3]
         x_estimado = self.predict_operacional(x = x)
         return self.mse(x_real,x_estimado)
 
     def predict_joint(self, *, x):
         y_predict = self._model.predict(x = x)
-        y_predict = self._datapreprocessing._scaler_y.inverse_transform(y_predict)
+        y_predict = self._scaler_y.inverse_transform(y_predict)
         return y_predict
     
     def predict_operacional(self, *, x, x_labels = ['p_x','p_y','p_z'], output_format = 'DataFrame'):

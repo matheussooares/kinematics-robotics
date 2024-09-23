@@ -11,10 +11,10 @@ L4 = rtb.RevoluteDH(d=0, a=0, alpha=pi/2, offset = pi/2)     # Criando elo 3
 L5 = rtb.RevoluteDH(d=0.18, a=0, alpha=0, offset = 0)     # Criando elo 4
 
 # ---------Criação do robô----------
-robo = rtb.DHRobot([L1, L2, L3, L4, L5], name="Robô Didático")
+robo = rtb.DHRobot([L1, L2, L3, L4, L5])
 
 # Ângulos predefinidos
-qf0 = [[0, 0, 0, 0, 0], [0, pi/3, pi/2, -pi/4, 0]]
+qf0 = [[0, 0, 0, 0, 0], [0, 7*pi/36, 5*pi/9, 7*pi/18, 0]]
 
 
 # Interface gráfica teach do robô
