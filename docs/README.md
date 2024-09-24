@@ -34,4 +34,4 @@ Devido ao mecanismo robótico ser constituido por 5 graus de liberdade de juntas
 | 5 | $\theta_{5}$         | $0$           | $Elo_{3}+ Elo_{4}$ | $0$       |
 
 
-
+````pip install -r requirements.txt````
