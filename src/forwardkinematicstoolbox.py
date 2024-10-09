@@ -1,5 +1,6 @@
 import roboticstoolbox as rtb
 import matplotlib.pyplot as plt
+import numpy as np
 from math import pi  # Importa o valor de pi
 
 # ---------Parâmetros DH----------
@@ -18,4 +19,39 @@ qf0 = [[0, 0, 0, 0, 0], [0, 7*pi/36, 5*pi/9, 7*pi/18, 0]]
 
 
 # Interface gráfica teach do robô
-robo.teach(qf0[1])  # Passa os ângulos predefinidos como argumento
+# robo.teach(qf0[0])  # Passa os ângulos predefinidos como argumento
+
+N = 100
+T = 0.008
+
+# ---------Pontos de juntas----------
+angs = [[0, 0, 0, 0, 0],
+             [pi/6, pi/2, pi/2, 0, pi/6],
+             [0, 0, 0, 0, 0],
+             [-pi/2, pi/6, 0, -pi/4, pi/6],
+             [0, 0, 0, 0, 0],
+             [pi/4, pi/6, -pi/4, pi/8, pi/6],
+             [0, 0, 0, 0, 0],
+             [pi/2, pi/6, -pi/3, pi/4, pi/6],
+             [0, 0, 0, 0, 0]]
+
+trajetoria = []
+for i in range(0,len(angs)-1):
+    trajetoria.append(rtb.jtraj(angs[i], angs[i+1], N).q)
+
+# # ---------Trajetórias----------
+trajetoria_completa = np.vstack(trajetoria)
+# ---------Visualização do robô----------
+
+
+
+    
+robo.plot(trajetoria_completa,
+          backend='pyplot',
+          dt=T, 
+          limits=[-0.4, 0.6, -0.4, 0.6, 0, 0.6],
+          shadow=True,
+           
+          loop=True)
+
+
