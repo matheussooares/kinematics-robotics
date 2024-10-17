@@ -1,5 +1,5 @@
-from kinematicsrobotics.datahandler import Extract
-from kinematicsrobotics.plottingutils import Plot
+from kinematicsrobotics.utils.datahandler import Extract
+from kinematicsrobotics.utils.plottingutils import Plot
 from kinematicsrobotics.model import Cluster
 
 ext = Extract()

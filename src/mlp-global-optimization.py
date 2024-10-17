@@ -1,7 +1,7 @@
-from kinematicsrobotics.datahandler import Extract
-from kinematicsrobotics.dataprocessing import Preprocessing
-from kinematicsrobotics.model import Model
-from kinematicsrobotics.crossvalidation import ParameterSearchMLP
+from kinematicsrobotics.utils.datahandler import Extract
+from kinematicsrobotics.processing.dataprocessing import Preprocessing
+from kinematicsrobotics.machine_learning.model import Model
+from kinematicsrobotics.machine_learning.crossvalidation import ParameterSearchMLP
 
 # Base de dados
 ext = Extract()

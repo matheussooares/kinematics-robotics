@@ -1,6 +1,6 @@
-from kinematicsrobotics.kinematics import Robo, Spacemapping
-from kinematicsrobotics import dataprocessing
-from kinematicsrobotics.datahandler import Save
+from kinematicsrobotics.robotics.kinematics import Robo, Spacemapping
+from kinematicsrobotics.processing import dataprocessing
+from kinematicsrobotics.utils.datahandler import Save
 
 
 # Inicializando a classe save

@@ -1,5 +1,5 @@
-from kinematicsrobotics.plottingutils import Plot
-from kinematicsrobotics.datahandler import Extract
+from kinematicsrobotics.utils.plottingutils import Plot
+from kinematicsrobotics.utils.datahandler import Extract
 # Extração das bases de dados
 path_raw = r'src\data\raw\dataset-semi-raw.csv'
 path_1cm = r'src\data\ready\dataset-radius-1cm.csv'

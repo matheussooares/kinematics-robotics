@@ -1,4 +1,4 @@
-from kinematicsrobotics.datahandler import Extract, Save
+from kinematicsrobotics.utils.datahandler import Extract, Save
 from pandas import DataFrame
 from matplotlib.pyplot import subplots, show, title, axes, figure
 from mpl_toolkits.mplot3d import Axes3D
