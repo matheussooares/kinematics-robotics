@@ -61,7 +61,7 @@ A descrição da cinemática direta desse sistema está apresentada na Tabela ab
 A validação da cinemática direta foi conduzida inserindo a parametrização D-H no modelo do braço robótico desenvolvido na biblioteca Robotics Toolbox for Python.
 
 <div align="center">
-  <img src="img/Robotics Toolbox for Pythongif.gif" alt="sistema de coordenadas manipulador" width="300" height="250">
+  <img src="https://github.com/matheussooares/kinematics-robotics/blob/main/docs/img/Robotics%20Toolbox%20for%20Pythongif.gif" alt="sistema de coordenadas manipulador" width="300" height="250">
   <br>
   <em>Figura 4: Simulação da modelagem direta do manipulador didático</em>
 </div>
