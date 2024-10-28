@@ -25,7 +25,7 @@ O objetivo geral do trabalho consiste na aproximação da cinemática inversa de
 O braço robótico trata-se de um robô do tipo manipulador, desenvolvido em um módulo didático pelo grupo de pesquisa em robótica do [IFCE](https://robotica.ifce.edu.br/). Sua fabricação foi realizada por meio de uma impressora 3D, utilizando filamento de PLA, um material de baixo custo amplamente empregado em impressões tridimensionais.
 
 <div align="center">
-  <img src="img/manipuladorroboticodidatico.png" alt="Braço robótico didático" width="300" height="300">
+  <img src="img/manipuladorroboticodidatico.png" alt="Braço robótico didático" width="200" height="200">
   <br>
   <em>Figura 1: Braço robótico didático</em>
 </div>
@@ -35,7 +35,7 @@ O braço robótico trata-se de um robô do tipo manipulador, desenvolvido em um 
 A estrutura mecânica do braço é composta por cinco partes físicas interligadas por cinco juntas rotacionais (5 GDL), definindo o robô como um modelo 5𝑅.
 
 <div align="center">
-  <img src="img/braco-juntas-elos.png" alt="Braço enumerado" width="400" height="200">
+  <img src="img/braco-juntas-elos.png" alt="Braço enumerado" width="300" height="150">
   <br>
   <em>Figura 2: Estrutura do braço robótico didático</em>
 </div>
@@ -43,7 +43,7 @@ A estrutura mecânica do braço é composta por cinco partes físicas interligad
 Devido ao mecanismo robótico ser constituido por 5 graus de liberdade de juntas rotativas, a cadeia cinemática possui cinco variáveis de juntas $\theta_{i}$, para $i = 1,...,5$. Utilizando as regras e etapas do método de Denavit-Hartenberg são fixados os sistemas de referência locais em cada elemento do robô e levantado os seus parâmetro D-H.
 
 <div align="center">
-  <img src="img/braco-referencia-locais.png" alt="sistema de coordenadas manipulador" width="400" height="200">
+  <img src="img/braco-referencia-locais.png" alt="sistema de coordenadas manipulador" width="300" height="150">
   <br>
   <em>Figura 3: Sistema de coordenadas locais do manipulador didático</em>
 </div>
@@ -60,23 +60,18 @@ A descrição da cinemática direta desse sistema está apresentada na Tabela ab
 
 A validação da cinemática direta foi conduzida inserindo a parametrização D-H no modelo do braço robótico desenvolvido na biblioteca Robotics Toolbox for Python.
 
-
 <div align="center">
-  <img src="img/Robotics Toolbox for Pythongif.gif" alt="sistema de coordenadas manipulador" width="400" height="350">
+  <img src="img/Robotics Toolbox for Pythongif.gif" alt="sistema de coordenadas manipulador" width="300" height="250">
   <br>
   <em>Figura 4: Simulação da modelagem direta do manipulador didático</em>
 </div>
-
-
-
 
 ### Padrões de Treinamento
 
 O método para geração dos padrões de treinamento passa pela modelagem da cinemática direta do manipulador. A base de dados representa todo o volume de trabalho e o comportamento dos ângulos das juntas do robô realizando o mapeamento das relações entre o espaço operacional e o espaço das juntas.
 
-
 <div align="center">
-  <img src="img/base de dados.gif" alt="sistema de coordenadas manipulador" width="400" height="300">
+  <img src="img/base de dados.gif" alt="sistema de coordenadas manipulador" width="300" height="200">
   <br>
   <em>Figura 5: Volume de trabalho do manipulador didático</em>
 </div>
@@ -87,3 +82,8 @@ A ausência de tratamento nos dados pode gerando a construção de modelos pouco
 
 Para um raio de similaridade de $𝑟_{𝑠}=1 𝑐𝑚$, a base de dados final passou a conter $6890$ amostras, representando uma redução de 20,7% dos dados originais. Contêm atributos de entradas que descrevem a posição $(𝑥,𝑦,𝑧)$ e as orientações Roll, Pitch e Yaw (𝜑,𝛽,𝜓) do efetuador no espaço tridimensional.
 
+<div align="center">
+  <img src="img/volume-trabalho-total-filtrado.png" alt="sistema de coordenadas manipulador" width="300" height="250">
+  <br>
+  <em>Figura 6: Volume de trabalho do manipulador sem redundâncias</em>
+</div>
