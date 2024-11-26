@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "LibraryTerminalBlock")(type "KiCad")(uri "${KIPRJMOD}/LibraryTerminalBlock.pretty")(options "")(descr ""))
+)
