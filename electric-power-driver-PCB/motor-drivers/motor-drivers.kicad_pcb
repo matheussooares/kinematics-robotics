@@ -54,7 +54,7 @@
 			(dashed_line_dash_ratio 12.000000)
 			(dashed_line_gap_ratio 3.000000)
 			(svgprecision 4)
-			(plotframeref yes)
+			(plotframeref no)
 			(viasonmask no)
 			(mode 1)
 			(useauxorigin yes)
