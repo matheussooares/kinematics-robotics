@@ -1,6 +1,5 @@
 #include <Servo.h>
 
-
 Servo junta_1;
 Servo junta_2;
 Servo junta_3;
