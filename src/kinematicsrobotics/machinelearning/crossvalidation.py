@@ -1,5 +1,5 @@
 from kinematicsrobotics.utils.datahandler import Save
-from kinematicsrobotics.machine_learning.model import Model
+from kinematicsrobotics.machinelearning.model import Model
 from pandas import DataFrame
 from itertools import product
 from sklearn.model_selection import ShuffleSplit, RandomizedSearchCV, GridSearchCV
@@ -11,9 +11,10 @@ class ParameterOptimizer:
         self._model = model
         self._x = x_train
         self._y = y_train
-        self.size_validation(size_train = size_train, 
-                             size_val = size_val,
-                             size_test = size_test
+        self.size_validation(
+            size_train = size_train, 
+            size_val = size_val,
+            size_test = size_test
         )
         self.holdout(n_splits = n_splits)
     
@@ -27,9 +28,10 @@ class ParameterOptimizer:
     def holdout(self, *, n_splits = 4):
         self._n_splits = n_splits
         
-        self._cv = ShuffleSplit(n_splits=n_splits, 
-                                test_size = self._size_val, 
-                                random_state=42
+        self._cv = ShuffleSplit(
+            n_splits=n_splits, 
+            test_size = self._size_val, 
+            random_state=42
         )
     
        
@@ -46,15 +48,16 @@ class ParameterSearchMLP(ParameterOptimizer):
 
     def RandomizedSearch(self,*, scoring = 'neg_mean_squared_error', n_iter, path_cv_results = None, path_best_params = None, **kw):
         # Configura os parâmetros da técnica de otimização 
-        random_search = RandomizedSearchCV(estimator = self._model.model, 
-                                           param_distributions = self.param_grid, 
-                                           scoring = scoring, 
-                                           cv = self._cv, 
-                                           n_iter = n_iter, 
-                                           random_state = 42, 
-                                           return_train_score = True,
-                                           verbose = True,
-                                           **kw
+        random_search = RandomizedSearchCV(
+            estimator = self._model.model, 
+            param_distributions = self.param_grid, 
+            scoring = scoring, 
+            cv = self._cv, 
+            n_iter = n_iter, 
+            random_state = 42, 
+            return_train_score = True,
+            verbose = True,
+            **kw
         )
         
         # Treina os modelos
@@ -79,10 +82,11 @@ class ParameterSearchMLP(ParameterOptimizer):
         param_grid = []
         
         for i, layers in enumerate(self._num_layers):
-            hidden_layer = self.space_hidden(layers = layers, 
-                                             min_neurons = self._min_neurons[i], 
-                                             max_neurons = self._max_neurons[i], 
-                                             step = self._step[i]
+            hidden_layer = self.space_hidden(
+                layers = layers, 
+                min_neurons = self._min_neurons[i], 
+                max_neurons = self._max_neurons[i], 
+                step = self._step[i]
             )
 
             param = { 

@@ -1,7 +1,7 @@
 from kinematicsrobotics.utils.datahandler import Extract
 from kinematicsrobotics.processing.dataprocessing import Preprocessing
-from kinematicsrobotics.machine_learning.model import Model
-from kinematicsrobotics.machine_learning.crossvalidation import ParameterSearchMLP
+from kinematicsrobotics.machinelearning.model import Model
+from kinematicsrobotics.machinelearning.crossvalidation import ParameterSearchMLP
 
 # Base de dados
 ext = Extract()
@@ -11,10 +11,11 @@ dataset = ext.dataframe(r'src\data\ready\dataset-radius-1cm.csv')
 # Divisão dos dados
 size_train, size_val, size_test = 0.7, 0.2, 0.1
 
-data  = Preprocessing(dataset = dataset, 
-                      x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
-                      y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4'],
-                      path_data_split = r'src\data\ready\data-r1cm-split'
+data  = Preprocessing(
+    dataset = dataset, 
+    x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+    y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4'],
+    path_data_split = r'src\data\ready\data-r1cm-split'
 )
 
 
@@ -32,15 +33,16 @@ layers = [1, 2, 3, 4]
 activation =  ['relu', 'tanh']
 
 
-cv = ParameterSearchMLP(min_neurons = min_neurons, 
-                        max_neurons = max_neurons, 
-                        num_layers = layers, 
-                        step = step,
-                        model = mlp,
-                        activation = activation,
-                        x_train = x_train,
-                        y_train = y_train,
-                        n_splits = 2
+cv = ParameterSearchMLP(
+    min_neurons = min_neurons, 
+    max_neurons = max_neurons, 
+    num_layers = layers, 
+    step = step,
+    model = mlp,
+    activation = activation,
+    x_train = x_train,
+    y_train = y_train,
+    n_splits = 2
 )
 
 # Métricas de avaliação
@@ -49,10 +51,11 @@ scoring = {
     'neg_mse': 'neg_mean_squared_error',  # Erro Quadrático Médio Negativo
 }
 
-best_estimator = cv.RandomizedSearch(scoring = scoring,
-                                     refit='neg_mse', 
-                                     n_iter = 2000, 
-                                     path_cv_results = r'src\data\history\parametersearch-mlp-global\cv_results.csv', 
-                                     path_best_params = r'src\data\history\parametersearch-mlp-global\best_params.csv',
+best_estimator = cv.RandomizedSearch(
+    scoring = scoring,
+    refit='neg_mse', 
+    n_iter = 2000, 
+    path_cv_results = r'src\data\history\parametersearch-mlp-global\cv_results.csv', 
+    path_best_params = r'src\data\history\parametersearch-mlp-global\best_params.csv',
                                      
 )

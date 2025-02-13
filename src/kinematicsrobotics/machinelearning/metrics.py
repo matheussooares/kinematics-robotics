@@ -2,7 +2,7 @@ from numpy import append
 from sklearn.metrics import mean_squared_error
 from kinematicsrobotics.processing.dataprocessing import Preprocessing
 from kinematicsrobotics.robotics.kinematics import Robo,Spacemapping
-from kinematicsrobotics.machine_learning.model import Model
+from kinematicsrobotics.machinelearning.model import Model
 
 
 
@@ -55,22 +55,3 @@ class Metrics:
     @staticmethod
     def mse(real, predict):
        return mean_squared_error(real, predict, multioutput='raw_values')
-    
-    
-
-
-
-
-
-
-
-
-    #import matplotlib.pyplot as plt
-    #from plottingutils import Plot
-    # def curve_loss(self):
-
-    #     plt.plot(self._model.loss_curve_)
-    #     plt.title('Erro Quadratico')
-    #     plt.xlabel('Épocas')
-    #     plt.ylabel('MSE')
-    #     plt.show()

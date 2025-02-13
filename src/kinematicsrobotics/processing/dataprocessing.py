@@ -1,3 +1,6 @@
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from kinematicsrobotics.utils.datahandler import Save
 from kinematicsrobotics.robotics.kinematics import Robo
 from numpy import array,arctan2,cos,sin,sqrt
 from pandas import concat, DataFrame
@@ -149,24 +152,22 @@ def rotations(dataset):
     df = DataFrame(df,columns = colunas)
     return df
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from kinematicsrobotics.utils.datahandler import Save
-
 class Preprocessing:
     def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1, normalize = True, path_data_split = None):
       
       self._dataset = dataset
 
-      self.partition(x_labels = x_labels, 
-                     y_labels = y_labels
+      self.partition(
+        x_labels = x_labels, 
+        y_labels = y_labels
       )
       
-      self.split(size_train = size_train, 
-                 size_val = size_val, 
-                 size_test = size_test,
-                 normalize = normalize,
-                 path_data_split = path_data_split
+      self.split(
+        size_train = size_train, 
+        size_val = size_val, 
+        size_test = size_test,
+        normalize = normalize,
+        path_data_split = path_data_split
       )
       
     @property
@@ -206,34 +207,42 @@ class Preprocessing:
         x_train, x_test, y_train, y_test = train_test_split(self._x, self._y, test_size=self._size_test)
         save  = Save()
         if path_data_split:
-          save.dataframe(data = DataFrame(x_train, columns=self._x_labels),
-                          path_data = f"{path_data_split}\\train\\x_train.csv")
+          save.dataframe(
+            data = DataFrame(x_train, columns=self._x_labels),
+            path_data = f"{path_data_split}\\train\\x_train.csv")
           
-          save.dataframe(data = DataFrame(y_train, columns=self._y_labels),
-                          path_data = f"{path_data_split}\\train\\y_train.csv")
+          save.dataframe(
+            data = DataFrame(y_train, columns=self._y_labels),
+            path_data = f"{path_data_split}\\train\\y_train.csv")
           
-          save.dataframe(data = DataFrame(x_test,  columns=self._x_labels),
-                          path_data = f"{path_data_split}\\test\\x_test.csv")
+          save.dataframe(
+            data = DataFrame(x_test,  columns=self._x_labels),
+            path_data = f"{path_data_split}\\test\\x_test.csv")
           
-          save.dataframe(data = DataFrame(y_test, columns=self._y_labels),
-                          path_data = f"{path_data_split}\\test\\y_test.csv")
+          save.dataframe(
+            data = DataFrame(y_test, columns=self._y_labels),
+            path_data = f"{path_data_split}\\test\\y_test.csv")
 
         if normalize:
           x_train, x_test, y_train, y_test, scaler_x, scaler_y  = self.zscore(x_train, x_test, y_train, y_test)
           
           if path_data_split:
-            df = self.statics_data_split(scaler = scaler_x, 
-                                         labels = self._x_labels
+            df = self.statics_data_split(
+              scaler = scaler_x, 
+              labels = self._x_labels
             )
-            save.dataframe(data = df,
-                           path_data = f"{path_data_split}\\statics_x.csv")
+            save.dataframe(
+              data = df,
+              path_data = f"{path_data_split}\\statics_x.csv")
 
-            df = self.statics_data_split(scaler = scaler_y, 
-                                         labels = self._y_labels
+            df = self.statics_data_split(
+              scaler = scaler_y, 
+              labels = self._y_labels
             )
 
-            save.dataframe(data = df,
-                           path_data = f"{path_data_split}\\statics_y.csv")
+            save.dataframe(
+              data = df,
+              path_data = f"{path_data_split}\\statics_y.csv")
           
 
       else: 
@@ -256,9 +265,10 @@ class Preprocessing:
     
     @staticmethod 
     def statics_data_split(*,scaler, labels):
-      return DataFrame({'labels':labels,
-                        'Média': scaler.mean_, 
-                        'Desvio Padrão': scaler.scale_})
+      return DataFrame({
+        'labels':labels,
+        'Média': scaler.mean_, 
+        'Desvio Padrão': scaler.scale_})
       
 
 

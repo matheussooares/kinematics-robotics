@@ -19,13 +19,14 @@ class Model:
     
     @classmethod
     def mlp_regressor(cls,*, EPOCHS = 1000, EPOCHS_NOCHANGE = 5, ERROR = 1e-4, early_stopping = True, verbose=True, random_state=42, **kw):
-        model = MLPRegressor(max_iter = EPOCHS,
-                            tol = ERROR,
-                            n_iter_no_change = EPOCHS_NOCHANGE,
-                            early_stopping = early_stopping,
-                            verbose = verbose,
-                            random_state=random_state,
-                            **kw)
+        model = MLPRegressor(
+            max_iter = EPOCHS,
+            tol = ERROR,
+            n_iter_no_change = EPOCHS_NOCHANGE,
+            early_stopping = early_stopping,
+            verbose = verbose,
+            random_state=random_state,
+            **kw)
         return cls(model,model.get_params())
 
     

@@ -14,11 +14,11 @@ class Plot:
     self._figsize = figsize
 
   def plot2D(self,*, labels: list, path: str = None,titulo: str = None, ** kw):
-    
     fig, grafico = subplots(nrows=1, ncols=1, figsize = self._figsize)
-    grafico.plot(self._data[labels[0]],
-                self._data[labels[1]],
-                **kw)
+    grafico.plot(
+      self._data[labels[0]],
+      self._data[labels[1]],
+      **kw)
     title(titulo)
     if path:
       self.save(path)
@@ -44,23 +44,25 @@ class Plot:
     if not name_labels:
       name_labels = labels
 
-    scatter = ax.scatter(self._data[labels[0]], 
-                         self._data[labels[1]], 
-                         self._data[labels[2]],
-                         s = s,
-                         alpha=alpha,
-                         **kw
+    scatter = ax.scatter(
+      self._data[labels[0]], 
+      self._data[labels[1]], 
+      self._data[labels[2]],
+      s = s,
+      alpha=alpha,
+      **kw
     )
 
     if (isinstance(dataset_ext, DataFrame) and not dataset_ext.empty):
-      scatter = ax.scatter(dataset_ext[labels[0]], 
-                           dataset_ext[labels[1]], 
-                           dataset_ext[labels[2]],
-                           s = 1,
-                           c='red',
-                           alpha=0.5,
-                           facecolors='none',
-                           marker='o'
+      scatter = ax.scatter(
+        dataset_ext[labels[0]], 
+        dataset_ext[labels[1]], 
+        dataset_ext[labels[2]],
+        s = 1,
+        c='red',
+        alpha=0.5,
+        facecolors='none',
+        marker='o'
       )
 
     color = 'black'
