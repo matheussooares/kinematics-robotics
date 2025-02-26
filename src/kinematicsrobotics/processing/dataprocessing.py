@@ -153,15 +153,17 @@ def rotations(dataset):
     return df
 
 class Preprocessing:
-    def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, size_train = 0.7, size_val = 0.2, size_test = 0.1, normalize = True, path_data_split = None):
-      
+    def __init__(self, *, dataset: DataFrame, x_labels: list = None, y_labels: list = None, 
+      size_train = 0.7, size_val = 0.2, size_test = 0.1, normalize = True, path_data_split = None):
+  
+      # Salva a base de dados
       self._dataset = dataset
-
+      # Particiona a base de dados em dados de entrada e saída
       self.partition(
         x_labels = x_labels, 
         y_labels = y_labels
       )
-      
+      # Divide a base de dados entre treino e teste
       self.split(
         size_train = size_train, 
         size_val = size_val, 
