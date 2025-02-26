@@ -6,7 +6,7 @@ from sklearn.model_selection import ShuffleSplit, RandomizedSearchCV, GridSearch
 
 class ParameterOptimizer:
     
-    def __init__(self, *, model: Model, x_train, y_train, size_train = 0.7, size_val =  0.1, size_test = 0.2, n_splits: int = 4) -> None:
+    def __init__(self, *, model: Model, x_train, y_train, size_train = 0.7, size_val =  0.1, size_test = 0.2, n_splits: int = 4, random_state=42) -> None:
         self._save = Save()
         self._model = model
         self._x = x_train
@@ -16,7 +16,7 @@ class ParameterOptimizer:
             size_val = size_val,
             size_test = size_test
         )
-        self.holdout(n_splits = n_splits)
+        self.holdout(n_splits = n_splits, random_state=random_state)
     
     # Método público que define a divisão dos dados de treino e validação
     def size_validation(self, *, size_train, size_val, size_test):
@@ -25,13 +25,13 @@ class ParameterOptimizer:
         self._size_test = size_test
 
     # Validação cruzada hold out
-    def holdout(self, *, n_splits = 4):
+    def holdout(self, *, n_splits = 4, random_state=42):
         self._n_splits = n_splits
         
         self._cv = ShuffleSplit(
             n_splits=n_splits, 
             test_size = self._size_val, 
-            random_state=42
+            random_state = random_state
         )
     
        
@@ -46,7 +46,7 @@ class ParameterSearchMLP(ParameterOptimizer):
         super().__init__(**kw)
 
 
-    def RandomizedSearch(self,*, scoring = 'neg_mean_squared_error', n_iter, path_cv_results = None, path_best_params = None, **kw):
+    def RandomizedSearch(self,*, scoring = 'neg_mean_squared_error', n_iter, path_cv_results = None, path_best_params = None, random_state = 42, **kw):
         # Configura os parâmetros da técnica de otimização 
         random_search = RandomizedSearchCV(
             estimator = self._model.model, 
@@ -54,7 +54,7 @@ class ParameterSearchMLP(ParameterOptimizer):
             scoring = scoring, 
             cv = self._cv, 
             n_iter = n_iter, 
-            random_state = 42, 
+            random_state = random_state, 
             return_train_score = True,
             verbose = True,
             **kw

@@ -33,15 +33,13 @@ modelos = LocalModels(
     EPOCHS = 1000, 
     EPOCHS_NOCHANGE = 10,
     random_state = 42, 
-    verbose = True,
-    hidden_layer_sizes = (320, 375, 265, 155),
-    activation = 'relu'
+    verbose = True
 )
 # Define o Espaço de busca do grid search
-min_neurons= [20]
-max_neurons = [6000]
-step = [35, 55]
-layers = [1]
+min_neurons= [20, 100, 100]
+max_neurons = [6000, 500, 500]
+step = [5, 10, 35, 5]
+layers = [1, 2, 3]
 activation =  ['relu', 'tanh']
 
 # Métricas de avaliação
@@ -49,10 +47,14 @@ scoring = {
     'r2': 'r2',  # Coeficiente de Determinação
     'neg_mse': 'neg_mean_squared_error',  # Erro Quadrático Médio Negativo
 }
-
+i = 0
 # Percorre os modelos
 for label, modelo in modelos.models.items():
+    # Armazena os hiperrâmetros
     cv_models = dict()
+    # Semente aleatoria
+    random_state = 42 + i
+    i = i + 1
     # Aplicando a seleção de hiperparâmetros
     cv_models[label] = ParameterSearchMLP(
         min_neurons = min_neurons, 
@@ -63,16 +65,19 @@ for label, modelo in modelos.models.items():
         activation = activation,
         x_train = x_train,
         y_train = y_train,
-        n_splits = 2
+        n_splits = 2, 
+        random_state=random_state
     )
-for label, cv in cv_models.items():  
-    best_estimator = cv.RandomizedSearch(
+
+    best_estimator = cv_models[label].RandomizedSearch(
         scoring = scoring,
         refit='neg_mse', 
-        n_iter = 2, 
+        n_iter = 1000, 
         path_cv_results = f'src\data\history\parametersearch-mlp-local\cv results model {label}.csv', 
-        path_best_params = f'src\data\history\parametersearch-mlp-local\\best params  model {label}.csv'                               
+        path_best_params = f'src\data\history\parametersearch-mlp-local\\best params  model {label}.csv',
+        random_state = random_state                           
     )
+    
     
     
 

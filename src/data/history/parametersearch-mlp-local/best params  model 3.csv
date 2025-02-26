@@ -1,2 +1,4 @@
 hidden_layer_sizes,activation
-3590,relu
+415,relu
+275,relu
+205,relu
