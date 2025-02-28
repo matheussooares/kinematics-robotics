@@ -4,7 +4,7 @@ from kinematicsrobotics.utils.datahandler import Save
 from kinematicsrobotics.robotics.kinematics import Robo
 from numpy import array,arctan2,cos,sin,sqrt
 from pandas import concat, DataFrame
-
+import os
 
 
 class DataTransformation:
@@ -209,6 +209,7 @@ class Preprocessing:
         x_train, x_test, y_train, y_test = train_test_split(self._x, self._y, test_size=self._size_test)
         save  = Save()
         if path_data_split:
+          os.makedirs(f"{path_data_split}\\train", exist_ok=True)
           save.dataframe(
             data = DataFrame(x_train, columns=self._x_labels),
             path_data = f"{path_data_split}\\train\\x_train.csv")
@@ -217,6 +218,7 @@ class Preprocessing:
             data = DataFrame(y_train, columns=self._y_labels),
             path_data = f"{path_data_split}\\train\\y_train.csv")
           
+          os.makedirs(f"{path_data_split}\\test", exist_ok=True)
           save.dataframe(
             data = DataFrame(x_test,  columns=self._x_labels),
             path_data = f"{path_data_split}\\test\\x_test.csv")

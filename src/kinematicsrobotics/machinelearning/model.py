@@ -92,6 +92,7 @@ class Cluster:
         index_clusters = dict()
         # Prediz qual o cluster de cada vetor dos dados
         cluster_predict = self._model.predict(x_features)
+        
         # Percorre as predições dos cluster e armazena os índices dos dados por cada grupo 
         for cluster in self._labels_cluster:
             # Armazena os índices da grupo atual
@@ -105,6 +106,7 @@ class Cluster:
                 i +=1
                 # Armazena todos os indices da base de dados correspondente ao label atual  
             index_clusters[cluster] = idex_labels
+        
         return index_clusters
     
     def save(self, *, columns, path_data_centers, path_data_cluster):

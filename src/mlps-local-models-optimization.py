@@ -2,7 +2,7 @@ from kinematicsrobotics.utils.datahandler import Save, Extract
 from kinematicsrobotics.machinelearning.model import Model, Cluster, LocalModels
 from kinematicsrobotics.processing.dataprocessing import Preprocessing
 from kinematicsrobotics.machinelearning.crossvalidation import ParameterSearchMLP
-    
+import os  
 # Extrai os dados     
 extrator = Extract()
 dataset = extrator.dataframe(r'src\data\ready\dataset-radius-1cm.csv')
@@ -12,18 +12,6 @@ kmeans = Cluster(
     n_clusters = 4, 
     n_init = 'auto'
 )
-# Gera os dados divididos entre treino e teste
-data  = Preprocessing(
-    dataset = dataset, 
-    x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
-    y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4'],
-    size_train = 0.7, 
-    size_val = 0.2, 
-    size_test = 0.1,
-    path_data_split = r'src\data\splits\data-r1cm-split-local'
-)
-# Pega os dados de treinamento e teste
-x_train, x_test, y_train, y_test = data.data_train_test
 
 # Cria os modelos locais
 modelos = LocalModels(
@@ -48,13 +36,31 @@ scoring = {
     'neg_mse': 'neg_mean_squared_error',  # Erro Quadrático Médio Negativo
 }
 i = 0
-# Percorre os modelos
+# # Percorre os modelos
 for label, modelo in modelos.models.items():
-    # Armazena os hiperrâmetros
+    # Caminho para guardar os dados divididos
+    path_data_split = f'src\data\splits\data-r1cm-split-local\model {label}'
+    os.makedirs(path_data_split, exist_ok=True)
+    
+    # Gera os dados divididos entre treino e teste
+    data  = Preprocessing(
+        dataset = dataset.loc[kmeans.cluster_indices[label]], 
+        x_labels=['p_x', 'p_y','p_z', 'roll', 'pich', 'yaw'],
+        y_labels=['theta_1', 'theta_2', 'theta_3', 'theta_4'],
+        size_train = 0.7, 
+        size_val = 0.2, 
+        size_test = 0.1,
+        path_data_split = path_data_split
+    )
+    
+    # Pega os dados de treinamento e teste
+    x_train, x_test, y_train, y_test = data.data_train_test
+    
+    # Armazena os hiperpâmetros
     cv_models = dict()
     # Semente aleatoria
-    random_state = 42 + i
-    i = i + 1
+    random_state = 44 + i
+    i +=1
     # Aplicando a seleção de hiperparâmetros
     cv_models[label] = ParameterSearchMLP(
         min_neurons = min_neurons, 
@@ -65,22 +71,15 @@ for label, modelo in modelos.models.items():
         activation = activation,
         x_train = x_train,
         y_train = y_train,
-        n_splits = 2, 
+        n_splits = 500, 
         random_state=random_state
     )
 
     best_estimator = cv_models[label].RandomizedSearch(
         scoring = scoring,
         refit='neg_mse', 
-        n_iter = 1000, 
+        n_iter = 2, 
         path_cv_results = f'src\data\history\parametersearch-mlp-local\cv results model {label}.csv', 
         path_best_params = f'src\data\history\parametersearch-mlp-local\\best params  model {label}.csv',
         random_state = random_state                           
     )
-    
-    
-    
-
-# modelos.fit(x = x_train, y = y_train)
-
-# print(modelos.predict(x = x_train))
