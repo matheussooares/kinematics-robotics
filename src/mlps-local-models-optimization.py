@@ -71,14 +71,14 @@ for label, modelo in modelos.models.items():
         activation = activation,
         x_train = x_train,
         y_train = y_train,
-        n_splits = 500, 
+        n_splits = 2, 
         random_state=random_state
     )
 
     best_estimator = cv_models[label].RandomizedSearch(
         scoring = scoring,
         refit='neg_mse', 
-        n_iter = 2, 
+        n_iter = 2000, 
         path_cv_results = f'src\data\history\parametersearch-mlp-local\cv results model {label}.csv', 
         path_best_params = f'src\data\history\parametersearch-mlp-local\\best params  model {label}.csv',
         random_state = random_state                           
